@@ -1,0 +1,63 @@
+{
+  "games": [
+    {
+      "GameId": 1,
+      "Title": "GTA IV",
+      "DescT": "Grand Theft Auto IV (2008)",
+      "Genre": "Action,Adventure",
+      "Category": "Games",
+      "Cover": "gtaiv.png",
+      "Company": "Rockstar North",
+      "Publisher": "Rockstar Games",
+      "LangT": "English",
+      "DateRelease": "2008-04-29T00:00:00",
+      "Rating": 10.0
+    }
+  ],
+  "movies": [
+    {
+      "MovieId": 1,
+      "Title": "The Fate of the Furious (FF8)",
+      "DescT": "Fast and Furious 8 (2017)",
+      "Genre": "Action,Adventure",
+      "Category": "Movies",
+      "Cover": "ff8.png",
+      "Company": "Universal Pictures",
+      "LangT": "English",
+      "Duration": 136,
+      "Rating": 8.3
+    }
+  ],
+  "tvseries": [
+    {
+      "TVSerieId": 1,
+      "Title": "Fear of The Walking Dead",
+      "DescT": "Fear of The Walking Dead (2015)",
+      "Genre": "Action,Adventure,Terror",
+      "Category": "TV Series",
+      "Cover": "ftwd.png",
+      "Company": "Fox,AMC",
+      "LangT": "English,Spanish",
+      "TotalSeasons": 8,
+      "Duration": 45,
+      "Rating": 9
+    }
+  ],
+  "users": [
+    {
+      "UserId": 1,
+      "Username": "guest",
+      "PasswordT": "guest1234",
+      "Email": "guest@localhost.loc",
+      "Pin": 1234,
+      "FirstName": "Guest",
+      "LastName": "Convidado",
+      "DateBirthday": "1994-01-01",
+      "Avatar": "guest.jpg",
+      "Cover": "c_guest.jpg",
+      "About": "Guest is cool guy!",
+      "DateAccountCreated": "2022-06-30 16:37:00",
+      "RoleT": 1
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+﻿@page "/"
+
+<h1>
+    <span class="bi bi-house me-2"></span>
+    @localizer["title"]    
+</h1>
+
+<p>@localizer["welcome"]</p>
+
+@code {
+    [Inject] public IJSRuntime JS { get; set; }
+    [Inject] public IStringLocalizer<srf.Resource> localizer { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await MyExtensions.LoadMyCultureInfo(JS);
+        StateHasChanged();
+    }
+}
