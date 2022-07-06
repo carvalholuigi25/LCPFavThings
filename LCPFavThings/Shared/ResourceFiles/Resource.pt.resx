@@ -120,6 +120,9 @@
   <data name="lnkadmindash" xml:space="preserve">
     <value>Painel de Administração</value>
   </data>
+  <data name="lnkchat" xml:space="preserve">
+    <value>Conversar</value>
+  </data>
   <data name="lnkgames" xml:space="preserve">
     <value>Jogos</value>
   </data>

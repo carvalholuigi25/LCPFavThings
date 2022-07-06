@@ -36,6 +36,8 @@ builder.Services.AddCors(p => p.AddPolicy("lcpcorsapp", builder =>
 
 var app = builder.Build();
 
+app.UseResponseCompression();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -47,11 +49,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-    endpoints.MapHub<BroadcastHub>("/broadcastHub");
-});
+
+app.MapControllers();
+app.MapHub<BroadcastHub>("/broadcastHub");
+app.MapHub<ChatHub>("/chatHub");
+app.MapFallbackToFile("index.html");
 
 var FileProviderPath = app.Environment.ContentRootPath + "/Assets";
 

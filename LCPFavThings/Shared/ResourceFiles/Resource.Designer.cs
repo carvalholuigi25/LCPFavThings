@@ -70,6 +70,15 @@ namespace LCPFavThings.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Chat.
+        /// </summary>
+        public static string lnkchat {
+            get {
+                return ResourceManager.GetString("lnkchat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Games.
         /// </summary>
         public static string lnkgames {
