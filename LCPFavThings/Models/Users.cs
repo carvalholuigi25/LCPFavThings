@@ -22,9 +22,9 @@ namespace LCPFavThings.Models
         public string? LastName { get; set; }
         public DateTime? DateBirthday { get; set; }
         public string? Avatar { get; set; }
-        public string? Cover { get; set; }
+        public string? Cover { get; set; } = "guest.jpg";
         public string? About { get; set; }
-        public DateTime? DateAccountCreated { get; set; }
+        public DateTime? DateAccountCreated { get; set; } = DateTime.UtcNow;
         public UsersRoles? RoleT { get; set; } = UsersRoles.guest;
     }
 

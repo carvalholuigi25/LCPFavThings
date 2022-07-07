@@ -8,7 +8,9 @@ namespace LCPFavThings.Helpers
     public interface ILSHelper
     {
         Task Save(string key, string val);
+        Task SaveByCl<T>(string key, T val) where T : class;
         Task<string> Get(string key);
+        Task<T> GetByCl<T>(string key) where T : class;
         Task Delete(string key);
         Task ClearAll();
     }
@@ -27,9 +29,19 @@ namespace LCPFavThings.Helpers
             await js.InvokeVoidAsync("localStorage.setItem", key, val);
         }
 
+        public async Task SaveByCl<T>(string key, T val) where T : class
+        {
+            await js.InvokeVoidAsync("localStorage.setItem", key, val);
+        }
+
         public async Task<string> Get(string key)
         {
             return await js.InvokeAsync<string>("localStorage.getItem", key);
+        }
+
+        public async Task<T> GetByCl<T>(string key) where T : class
+        {
+            return await js.InvokeAsync<T>("localStorage.getItem", key);
         }
 
         public async Task Delete(string key)

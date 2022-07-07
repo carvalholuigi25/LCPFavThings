@@ -97,11 +97,38 @@ namespace LCPFavThings.Shared.ResourceFiles {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Login.
+        /// </summary>
+        public static string lnklogin {
+            get {
+                return ResourceManager.GetString("lnklogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Logout.
+        /// </summary>
+        public static string lnklogout {
+            get {
+                return ResourceManager.GetString("lnklogout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Movies.
         /// </summary>
         public static string lnkmovies {
             get {
                 return ResourceManager.GetString("lnkmovies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Create new account.
+        /// </summary>
+        public static string lnkregister {
+            get {
+                return ResourceManager.GetString("lnkregister", resourceCulture);
             }
         }
         
@@ -129,6 +156,15 @@ namespace LCPFavThings.Shared.ResourceFiles {
         public static string lnkupload {
             get {
                 return ResourceManager.GetString("lnkupload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Users.
+        /// </summary>
+        public static string lnkusers {
+            get {
+                return ResourceManager.GetString("lnkusers", resourceCulture);
             }
         }
         

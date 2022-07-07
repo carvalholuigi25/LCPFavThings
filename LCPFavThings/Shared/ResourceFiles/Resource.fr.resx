@@ -129,8 +129,17 @@
   <data name="lnkhome" xml:space="preserve">
     <value>Domicile</value>
   </data>
+  <data name="lnklogin" xml:space="preserve">
+    <value>Connectez-vous</value>
+  </data>
+  <data name="lnklogout" xml:space="preserve">
+    <value>Déconnexion</value>
+  </data>
   <data name="lnkmovies" xml:space="preserve">
     <value>Cinéma</value>
+  </data>
+  <data name="lnkregister" xml:space="preserve">
+    <value>Créer un nouveau compte</value>
   </data>
   <data name="lnksettings" xml:space="preserve">
     <value>Paramètres</value>
@@ -140,6 +149,9 @@
   </data>
   <data name="lnkupload" xml:space="preserve">
     <value>Télécharger</value>
+  </data>
+  <data name="lnkusers" xml:space="preserve">
+    <value>Utilisateurs</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>LCP Mes choses préférées</value>

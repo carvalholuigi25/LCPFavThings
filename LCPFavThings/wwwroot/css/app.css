@@ -91,7 +91,7 @@ table, .table {
     /*aspect-ratio: 1/1;*/
 }
 
-.card .card-img-top.cover, .cover {
+.card .card-img-top.cover {
     width: auto !important;
     height: auto !important;
     max-width: 100%;

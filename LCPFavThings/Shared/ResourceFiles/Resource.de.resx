@@ -129,8 +129,17 @@
   <data name="lnkhome" xml:space="preserve">
     <value>Haus</value>
   </data>
+  <data name="lnklogin" xml:space="preserve">
+    <value>Einloggen</value>
+  </data>
+  <data name="lnklogout" xml:space="preserve">
+    <value>Abmeldung</value>
+  </data>
   <data name="lnkmovies" xml:space="preserve">
     <value>Filme</value>
+  </data>
+  <data name="lnkregister" xml:space="preserve">
+    <value>Neues Konto erstellen</value>
   </data>
   <data name="lnksettings" xml:space="preserve">
     <value>Definitionen</value>
@@ -140,6 +149,9 @@
   </data>
   <data name="lnkupload" xml:space="preserve">
     <value>Senden von Dateien</value>
+  </data>
+  <data name="lnkusers" xml:space="preserve">
+    <value>Benutzer</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>LCP Meine Lieblingssachen</value>

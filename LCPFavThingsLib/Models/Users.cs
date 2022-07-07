@@ -22,17 +22,17 @@ namespace LCPFavThingsLib.Models
         public string? LastName { get; set; }
         public DateTime? DateBirthday { get; set; }
         public string? Avatar { get; set; }
-        public string? Cover { get; set; }
+        public string? Cover { get; set; } = "guest.jpg";
         public string? About { get; set; }
-        public DateTime? DateAccountCreated { get; set; }
-        public UsersRoles? RoleT { get; set; } = UsersRoles.guest;
+        public DateTime? DateAccountCreated { get; set; } = DateTime.UtcNow;
+        public UsersRoles? RoleT { get; set; } = UsersRoles.user;
     }
 
     public enum UsersRoles
     {
-        banned,
-        guest,
-        user,
-        admin
+        banned = 0,
+        guest = 1,
+        user = 2,
+        admin = 3
     }
 }
