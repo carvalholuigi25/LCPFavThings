@@ -1,3 +1,62 @@
+USE LCPFavThingsDB;
+
+CREATE TABLE IF NOT EXISTS "Games" (
+    "GameID" INTEGER NOT NULL CONSTRAINT "PK_Games" PRIMARY KEY AUTOINCREMENT,
+    "Title" TEXT NOT NULL,
+    "DescT" TEXT NOT NULL,
+    "Genre" TEXT NOT NULL,
+    "Category" TEXT NOT NULL,
+    "Cover" TEXT NOT NULL,
+    "Company" TEXT NOT NULL,
+    "Publisher" TEXT NOT NULL,
+    "LangT" TEXT NOT NULL,
+    "DateRelease" TEXT NOT NULL,
+    "Rating" decimal(2, 1) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "Movies" (
+    "MovieID" INTEGER NOT NULL CONSTRAINT "PK_Movies" PRIMARY KEY AUTOINCREMENT,
+    "Title" TEXT NOT NULL,
+    "DescT" TEXT NOT NULL,
+    "Genre" TEXT NOT NULL,
+    "Category" TEXT NOT NULL,
+    "Cover" TEXT NOT NULL,
+    "Company" TEXT NOT NULL,
+    "LangT" TEXT NOT NULL,
+    "Duration" int NOT NULL,
+    "Rating" decimal(2, 1) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "TVSeries" (
+    "TVSerieID" INTEGER NOT NULL CONSTRAINT "PK_TVSeries" PRIMARY KEY AUTOINCREMENT,
+    "Title" TEXT NOT NULL,
+    "DescT" TEXT NOT NULL,
+    "Genre" TEXT NOT NULL,
+    "Category" TEXT NOT NULL,
+    "Cover" TEXT NOT NULL,
+    "Company" TEXT NOT NULL,
+    "LangT" TEXT NOT NULL,
+    "TotalSeasons" int NOT NULL,
+    "Duration" int NOT NULL,
+    "Rating" decimal(2, 1) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "Users" (
+    "UserID" INTEGER NOT NULL CONSTRAINT "PK_Users" PRIMARY KEY AUTOINCREMENT,
+    "Username" TEXT NOT NULL,
+    "PasswordT" TEXT NOT NULL,
+    "Email" TEXT NULL,
+    "Pin" int NULL,
+    "FirstName" TEXT NULL,
+    "LastName" TEXT NULL,
+    "DateBirthday" datetime NULL,
+    "Avatar" TEXT NULL,
+    "Cover" TEXT NULL,
+    "About" TEXT NULL,
+    "DateAccountCreated" datetime NULL,
+    "RoleT" INTEGER NULL
+);
+
 DELETE FROM Games;
 DELETE FROM Movies;
 DELETE FROM TVSeries;
@@ -17,3 +76,6 @@ VALUES (2, 'The Flash', 'The Flash (2014)', 'Action,Adventure', 'TV Series', 'th
 
 INSERT INTO Users (UserID, Username, PasswordT, Email, Pin, FirstName, LastName, DateBirthday, Avatar, Cover, About, DateAccountCreated, RoleT) 
 VALUES (1, 'guest', 'guest1234', 'guest@localhost.loc', '1234', 'Guest', 'Convidado', '1994-01-01', 'guest.jpg', 'c_guest.jpg', 'Guest is cool guy!', '2022-06-30 16:37:00', 1);
+
+INSERT INTO Users (UserID, Username, PasswordT, Email, Pin, FirstName, LastName, DateBirthday, Avatar, Cover, About, DateAccountCreated, RoleT) 
+VALUES (2, 'admin', 'admin1234', 'admin@localhost.loc', '1234', 'Admin', 'Admin', '1996-06-04', 'theflash.jpg', 'theflash.jpg', 'Admin is cool guy!', '2022-07-08 15:26:00', 3);

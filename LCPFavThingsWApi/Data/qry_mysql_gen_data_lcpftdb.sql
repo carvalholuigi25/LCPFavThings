@@ -79,3 +79,6 @@ VALUES ('Fear of The Walking Dead','Fear of The Walking Dead (2015)','Action,Adv
        
 INSERT Users (Username,PasswordT,Email,Pin,FirstName,LastName,DateBirthday,Avatar,Cover,About,DateAccountCreated,RoleT) 
 VALUES ('guest','guest1234','guest@localhost.loc',1234,'Guest','Convidado','1994-01-01','guest.jpg','c_guest.jpg','Guest is cool guy!','2022-06-30 16:37:00',1);
+
+INSERT Users (Username,PasswordT,Email,Pin,FirstName,LastName,DateBirthday,Avatar,Cover,About,DateAccountCreated,RoleT) 
+VALUES ('admin','admin1234','admin@localhost.loc',1234,'Admin','Admin','1996-06-04','theflash.jpg','theflash.jpg','Admin is cool guy!','2022-07-08 15:26:00',3);

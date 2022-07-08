@@ -1,11 +1,17 @@
 using LCPFavThingsWApi.Context;
 using LCPFavThingsWApi.Hubs;
+using LCPFavThingsWApi.SecurityApi.JWT;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 //var sgbdsrv = builder.Environment.IsProduction() ? "sqlserver" : "sqlite";
 var sgbdsrv = builder.Configuration.GetSection("SGBDServiceMode").Value.ToString();
+
+builder.Services.AddDbContext<ApiSecurityDBCtx>();
 
 if (sgbdsrv == "sqlserver")
 {
@@ -22,7 +28,51 @@ else
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "LCPFavThings API", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = $@"
+        JWT Authorization Header - utilizado com Bearer Authentication. {Environment.NewLine}
+        Digite 'Bearer' [espaço] e então o seu token no campo debaixo. {Environment.NewLine}
+        Exemplo (informar sem aspas): 'Bearer abcdef123456'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+//sources:
+//https://renatogroffe.medium.com/net-6-asp-net-core-jwt-swagger-implementando-a-utiliza%C3%A7%C3%A3o-de-tokens-5d04cda20fa8
+//https://github.com/renatogroffe/ASPNETCore6-REST_API-JWT-Swagger_ContagemAcessos
+var tokenConfigurations = new TokenConfigurations();
+new ConfigureFromConfigurationOptions<TokenConfigurations>(
+    builder.Configuration.GetSection("TokenConfigurations"))
+        .Configure(tokenConfigurations);
+
+// Aciona a extensão que irá configurar o uso de autenticação e autorização via tokens
+builder.Services.AddJwtSecurity(tokenConfigurations);
+builder.Services.AddScoped<IdentityInitializer>();
+
 builder.Services.AddSignalR();
 builder.Services.AddResponseCompression(opts =>
 {
@@ -31,7 +81,7 @@ builder.Services.AddResponseCompression(opts =>
 
 builder.Services.AddCors(p => p.AddPolicy("lcpcorsapp", builder =>
 {
-    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 }));
 
 var app = builder.Build();
@@ -43,6 +93,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//source: https://github.com/renatogroffe/ASPNETCore6-REST_API-JWT-Swagger_ContagemAcessos
+using var scope = app.Services.CreateScope();
+scope.ServiceProvider.GetRequiredService<IdentityInitializer>().Initialize();
 
 app.UseCors("lcpcorsapp");
 app.UseHttpsRedirection();

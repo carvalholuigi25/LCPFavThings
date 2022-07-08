@@ -2,11 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using LCPFavThingsWApi.Context;
 using LCPFavThingsWApi.Models;
+//using Microsoft.AspNetCore.Authorization;
 
 namespace LCPFavThingsWApi.Controllers
 {
     [Route("api/users")]
     [ApiController]
+    //[Authorize("Bearer")]
     public class UsersController : ControllerBase
     {
         private readonly DBContext _context;
