@@ -21,7 +21,7 @@
 
     <div class="form-group mt-3">
         <label for="passwordt">Password</label>
-        <InputText type="password" class="passwordt form-control" id="passwordt" @bind-Value="users.PasswordT" />
+        <InputText type="password" class="passwordt form-control" id="passwordt" @bind-Value="users.Password" />
     </div>
 
     <div class="form-group mt-3 d-inline-block ms-auto me-auto">
@@ -45,8 +45,8 @@
 
     private string valdbm { get; set; } = "server";
 
-    lib.Models.Users users = new lib.Models.Users();
-    List<lib.Models.Users> userslist = new List<lib.Models.Users>();
+    lib.Models.UserAuth users = new lib.Models.UserAuth();
+    List<lib.Models.UserAuth> userslist = new List<lib.Models.UserAuth>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,26 +59,41 @@
 
     private async Task DoLogin()
     {
-        if (valdbm == "local")
+        if(users != null)
         {
-            userslist = await locdbdatasrv.Read<lib.Models.Users>();
-        }
-        else
-        {
-            userslist = await alldatasrv.Get<lib.Models.Users>("users");
-        }
+            var userslistv = new List<lib.Models.UserAuth>();
 
-        if(users != null && userslist.Count > 0)
-        {
-            var userslistv = userslist.Where(x => x.Username == users.Username && x.PasswordT == users.PasswordT).FirstOrDefault();
+            if (valdbm == "local")
+            {
+                userslistv = await locdbdatasrv.CreateAndGet<lib.Models.UserAuth>(users);
+            }
+            else
+            {
+                userslistv = await alldatasrv.InsertAndGet<lib.Models.UserAuth>("auth", users);
+            }
 
             if (userslistv != null)
             {
-                await ls.Save("authinfo", JsonConvert.SerializeObject(userslistv));
+
+                await ls.Save("authinfo", JsonConvert.SerializeObject(
+                    new lib.Models.UserAuth()
+                    {
+                        Username = users.Username,
+                        TokenInfo = new lib.Models.Token()
+                        {
+                            TokenId = userslistv[0].TokenInfo.TokenId,
+                            Authenticated = userslistv[0].TokenInfo.Authenticated,
+                            AccessToken = userslistv[0].TokenInfo.AccessToken,
+                            Created = userslistv[0].TokenInfo.Created,
+                            Expiration = userslistv[0].TokenInfo.Expiration,
+                            Message = userslistv[0].TokenInfo.Message
+                        }
+                    }
+                ));
 
                 if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
                 {
-                    await JS.InvokeVoidAsync("alert", $"Succesfully logged as {userslistv.Username}!");
+                    await JS.InvokeVoidAsync("alert", $"Succesfully logged as {users.Username}!");
                     navman.NavigateTo("/", true);
                 }
             }
@@ -107,6 +122,6 @@
 
     private void Clear()
     {
-        users = new lib.Models.Users();
+        users = new lib.Models.UserAuth();
     }
 }

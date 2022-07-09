@@ -1,23 +1,25 @@
-﻿using System.Net.Http.Json;
+﻿using LCPFavThingsLib.Models;
 using LCPFavThings.Helpers;
 using Microsoft.Data.SqlClient;
-using SQLite;
-using Newtonsoft.Json;
-using System.Linq.Expressions;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
+using SQLite;
+using System.Linq.Expressions;
+using System.Net.Http.Json;
+using System.Net.Http.Headers;
 
 namespace LCPFavThings.Data.SQL
 {
 	public class AllDataService : IAllDataService
     {
         private readonly string apiUrl = HTTPHelper.GetMyBaseAddress();
-
-#if DEBUG
-        private readonly static HttpClientHandler insecureHandler = HTTPHelper.GetInsecureHandler(0);
-        private readonly HttpClient httpClient = new(insecureHandler);
-#else
+        
+        #if DEBUG
+            private readonly static HttpClientHandler insecureHandler = HTTPHelper.GetInsecureHandler(0);
+            private readonly HttpClient httpClient = new(insecureHandler);
+        #else
             private readonly HttpClient httpClient = new HttpClient();
-#endif
+        #endif
 
         public AllDataService(HttpClient httpClient)
         {
@@ -44,6 +46,12 @@ namespace LCPFavThings.Data.SQL
         {
             var resp = await httpClient.PostAsJsonAsync($@"{apiUrl}/api/{apiname}", body);
             return await resp.Content.ReadFromJsonAsync<T>();
+        }
+
+        public async Task<List<T>> InsertAndGet<T>(string apiname, T body)
+        {
+            var resp = await httpClient.PostAsJsonAsync($@"{apiUrl}/api/{apiname}", body);
+            return await resp.Content.ReadFromJsonAsync<List<T>>();
         }
 
         public async Task<T> Update<T>(string apiname, int id, T body)

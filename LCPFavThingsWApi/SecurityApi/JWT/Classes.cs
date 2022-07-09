@@ -1,12 +1,10 @@
 ﻿//source: https://raw.githubusercontent.com/renatogroffe/ASPNETCore6-REST_API-JWT-Swagger_ContagemAcessos/main/APIs.Security.JWT/Classes.cs
 
+using LCPFavThingsWApi.Models;
+
 namespace LCPFavThingsWApi.SecurityApi.JWT;
 
-public class User
-{
-    public string? Username { get; set; }
-    public string? Password { get; set; }
-}
+public class User : UserAuth { }
 
 public static class Roles
 {

@@ -1,7 +1,11 @@
-﻿namespace LCPFavThings.Helpers
+﻿using LCPFavThingsLib.Models;
+using Newtonsoft.Json;
+
+namespace LCPFavThings.Helpers
 {
     public static class HTTPHelper
     {
+        public static readonly ILSHelper lsh;
         public static string GetMyBaseAddress()
         {
             var isSSL = true;
@@ -34,6 +38,13 @@
             };
             
             return handler;
+        }
+
+        public static async Task<string> SetBearerJWT()
+        {
+            var myainfo = !string.IsNullOrEmpty(await lsh.Get("authinfo")) ? await lsh.Get("authinfo") : "";
+            var objainfo = JsonConvert.DeserializeObject<UserAuth>(myainfo);
+            return objainfo.TokenInfo.AccessToken;
         }
     }
 }

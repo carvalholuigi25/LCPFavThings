@@ -27,6 +27,12 @@ namespace LCPFavThings.Data.SQLite
             return await conn.InsertAsync(item);
         }
 
+        public async Task<List<T>> CreateAndGet<T>(T item) where T : new()
+        {
+            await conn.InsertAsync(item);
+            return await Read<T>();
+        }
+
         public async Task<List<T>> Read<T>() where T : new()
         {
             return await conn.Table<T>().ToListAsync();

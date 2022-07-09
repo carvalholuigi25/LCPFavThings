@@ -1,6 +1,8 @@
-﻿using SQLite;
+﻿using LCPFavThingsLib.Models;
+using SQLite;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace LCPFavThings.Models
 {
@@ -26,6 +28,17 @@ namespace LCPFavThings.Models
         public string? About { get; set; }
         public DateTime? DateAccountCreated { get; set; } = DateTime.UtcNow;
         public UsersRoles? RoleT { get; set; } = UsersRoles.guest;
+        [NotMapped]
+        [JsonIgnore]
+        public Token? TokenInfo { get; set; }
+    }
+
+    public class UserAuth
+    {
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+        [JsonIgnore]
+        public Token? TokenInfo { get; set; }
     }
 
     public enum UsersRoles

@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace LCPFavThingsLib.Models
 {
@@ -26,6 +27,17 @@ namespace LCPFavThingsLib.Models
         public string? About { get; set; }
         public DateTime? DateAccountCreated { get; set; } = DateTime.UtcNow;
         public UsersRoles? RoleT { get; set; } = UsersRoles.user;
+        [NotMapped]
+        [JsonIgnore]
+        public Token? TokenInfo { get; set; }
+    }
+
+    public class UserAuth
+    {
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+        [JsonIgnore]
+        public Token? TokenInfo { get; set; }
     }
 
     public enum UsersRoles
@@ -34,5 +46,18 @@ namespace LCPFavThingsLib.Models
         guest = 1,
         user = 2,
         admin = 3
+    }
+    
+    public class Token
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        [PrimaryKey]
+        public Guid? TokenId { get; set; } = Guid.NewGuid();
+        public bool Authenticated { get; set; }
+        public string? Created { get; set; }
+        public string? Expiration { get; set; }
+        public string? AccessToken { get; set; }
+        public string? Message { get; set; }
     }
 }

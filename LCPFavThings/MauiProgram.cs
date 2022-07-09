@@ -35,6 +35,8 @@ public static class MauiProgram
         builder.Services.AddHttpClient<IAllDataService, AllDataService>(client =>
 		{
             client.BaseAddress = new Uri(MyBaseAddress);
+            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", " " + SetBearerJWT());
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + HTTPHelper.SetBearerJWT());
         }).ConfigurePrimaryHttpMessageHandler(() => HTTPHelper.GetInsecureHandler(0));
 
 
