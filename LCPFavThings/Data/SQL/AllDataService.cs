@@ -51,7 +51,8 @@ namespace LCPFavThings.Data.SQL
         public async Task<List<T>> InsertAndGet<T>(string apiname, T body)
         {
             var resp = await httpClient.PostAsJsonAsync($@"{apiUrl}/api/{apiname}", body);
-            return await resp.Content.ReadFromJsonAsync<List<T>>();
+            if(resp != null) resp.EnsureSuccessStatusCode();
+            return JsonConvert.DeserializeObject<List<T>>(await resp.Content.ReadAsStringAsync());
         }
 
         public async Task<T> Update<T>(string apiname, int id, T body)

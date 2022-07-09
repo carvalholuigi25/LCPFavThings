@@ -42,9 +42,9 @@ namespace LCPFavThings.Helpers
 
         public static async Task<string> SetBearerJWT()
         {
-            var myainfo = !string.IsNullOrEmpty(await lsh.Get("authinfo")) ? await lsh.Get("authinfo") : "";
-            var objainfo = JsonConvert.DeserializeObject<UserAuth>(myainfo);
-            return objainfo.TokenInfo.AccessToken;
+            var myainfo = lsh != null && !string.IsNullOrEmpty(await lsh.Get("authinfo")) ? await lsh.Get("authinfo") : "";
+            var objainfo = myainfo.Length > 0 ? JsonConvert.DeserializeObject<UserAuth>(myainfo) : null;
+            return objainfo != null ? objainfo.TokenInfo.AccessToken : "";
         }
     }
 }

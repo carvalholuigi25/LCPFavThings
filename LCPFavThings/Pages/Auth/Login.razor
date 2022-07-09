@@ -61,7 +61,7 @@
     {
         if(users != null)
         {
-            var userslistv = new List<lib.Models.UserAuth>();
+            List<lib.Models.UserAuth> userslistv = new List<lib.Models.UserAuth>();
 
             if (valdbm == "local")
             {
@@ -74,7 +74,6 @@
 
             if (userslistv != null)
             {
-
                 await ls.Save("authinfo", JsonConvert.SerializeObject(
                     new lib.Models.UserAuth()
                     {
