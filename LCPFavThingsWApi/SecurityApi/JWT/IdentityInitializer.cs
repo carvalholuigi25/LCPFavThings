@@ -1,21 +1,25 @@
 ﻿//source: https://raw.githubusercontent.com/renatogroffe/ASPNETCore6-REST_API-JWT-Swagger_ContagemAcessos/main/APIs.Security.JWT/IdentityInitializer.cs
 
 using Microsoft.AspNetCore.Identity;
+using LCPFavThingsWApi.Context;
 
 namespace LCPFavThingsWApi.SecurityApi.JWT;
 
 public class IdentityInitializer
 {
     private readonly ApiSecurityDBCtx _context;
+    private readonly DBContext _dbccontext;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
     public IdentityInitializer(
         ApiSecurityDBCtx context,
+        DBContext dbcontext,
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager)
     {
         _context = context;
+        _dbccontext = dbcontext;
         _userManager = userManager;
         _roleManager = roleManager;
     }
@@ -35,27 +39,27 @@ public class IdentityInitializer
                 }
             }
 
-            CreateUser(
-                new ApplicationUser()
-                {
-                    UserName = "guest",
-                    Email = "guest@localhost.loc",
-                    EmailConfirmed = true
-                }, "8@SLq^D4S&$,mpjG", Roles.ROLE_ACESSO_APIS);
+            var userlist = _dbccontext.User.ToList();
 
-            CreateUser(
-                new ApplicationUser()
+            if(userlist.Count > 0)
+            {
+                for(var ulx = 0; ulx < userlist.Count; ulx++)
                 {
-                    UserName = "admin",
-                    Email = "admin@localhost.loc",
-                    EmailConfirmed = true
-                }, "-k-Nd?k6/pj7D7Ef", Roles.ROLE_ACESSO_APIS);
+                    CreateUser(
+                        new ApplicationUser()
+                        {
+                            UserName = userlist[ulx].Username,
+                            Email = userlist[ulx].Email,
+                            EmailConfirmed = true
+                        }, userlist[ulx].PasswordT, Roles.ROLE_ACESSO_APIS);
+                }
+            }
         }
     }
 
     private void CreateUser(
         ApplicationUser user,
-        string password,
+        string? password,
         string? initialRole = null)
     {
         if (_userManager.FindByNameAsync(user.UserName).Result == null)
