@@ -67,6 +67,16 @@ CREATE TABLE IF NOT EXISTS Users (
    PRIMARY KEY(UserId)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS UserAuth (
+   UserAuthId int not null auto_increment,
+   Username varchar(255) not null,
+   PasswordT varchar(255) not null,
+   UserId int null,
+   Avatar varchar(255) null,
+   TokenInfo text null,
+   PRIMARY KEY(UserAuthId)
+) ENGINE=InnoDB;
+
 INSERT Games (Title,DescT,Genre,Category,Cover,Company,Publisher,LangT,DateRelease,Rating) 
 VALUES ('GTA IV','Grand Theft Auto IV (2008)','Action,Adventure','Games','gtaiv.jpg','Rockstar North','Rockstar Games','English','2008-04-29T00:00:00',9);
 
@@ -82,3 +92,9 @@ VALUES ('guest','guest1234','guest@localhost.loc',1234,'Guest','Convidado','1994
 
 INSERT Users (Username,PasswordT,Email,Pin,FirstName,LastName,DateBirthday,Avatar,Cover,About,DateAccountCreated,RoleT) 
 VALUES ('admin','admin1234','admin@localhost.loc',1234,'Admin','Admin','1996-06-04','theflash.jpg','theflash.jpg','Admin is cool guy!','2022-07-08 15:26:00',3);
+
+INSERT UserAuth (Username,PasswordT,UserId,Avatar,TokenInfo) 
+VALUES ('guest','guest1234',1,'guest.jpg','');
+
+INSERT UserAuth (Username,PasswordT,UserId,Avatar,TokenInfo) 
+VALUES ('admin','admin1234',2,'theflash.jpg','');

@@ -217,6 +217,37 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     b.ToTable("TVSeries", (string)null);
                 });
 
+            modelBuilder.Entity("LCPFavThingsWApi.Models.UserAuth", b =>
+                {
+                    b.Property<int?>("UserAuthId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("UserAuthId");
+
+                    b.Property<string>("Avatar")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Password")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserID");
+
+                    b.Property<string>("Username")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("UserAuthId");
+
+                    b.ToTable("UserAuth", (string)null);
+                });
+
             modelBuilder.Entity("LCPFavThingsWApi.Models.Users", b =>
                 {
                     b.Property<int?>("UserId")
@@ -283,6 +314,29 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.Token", b =>
+                {
+                    b.Property<string>("AccessToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Authenticated")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Created")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Expiration")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("TokenId")
+                        .HasColumnType("int");
+
+                    b.ToTable("Token");
                 });
 #pragma warning restore 612, 618
         }

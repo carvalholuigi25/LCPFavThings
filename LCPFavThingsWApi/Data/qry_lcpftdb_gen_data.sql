@@ -41,6 +41,13 @@ END
 
 GO
 
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'UserAuth')
+BEGIN
+	DROP TABLE [dbo].[UserAuth];
+END
+
+GO
+
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'Games')
 BEGIN
 	CREATE TABLE [dbo].[Games](
@@ -134,12 +141,29 @@ END
 
 GO
 
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'UserAuth')
+BEGIN
+	CREATE TABLE [dbo].[UserAuth](
+		[UserAuthID] [int] IDENTITY(1,1) NOT NULL,
+		[Username] [varchar](255) NOT NULL,
+		[PasswordT] [varchar](255) NOT NULL,
+		[UserID] [int] NULL,
+		[Avatar] [varchar](255) NULL,
+		[TokenInfo] [text] NULL,
+		CONSTRAINT [PK_UserAuth] PRIMARY KEY CLUSTERED 
+	(
+		[UserAuthID] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+
 GO
 
 DELETE FROM dbo.Games;
 DELETE FROM dbo.Movies;
 DELETE FROM dbo.TVSeries;
 DELETE FROM dbo.Users;
+DELETE FROM dbo.UserAuth;
 
 GO
 
@@ -166,5 +190,12 @@ SET IDENTITY_INSERT [dbo].[Users] ON
 INSERT [dbo].[Users] ([UserID], [Username], [PasswordT], [Email], [Pin], [FirstName], [LastName], [DateBirthday], [Avatar], [Cover], [About], [DateAccountCreated], [RoleT]) VALUES (1, N'guest', N'guest1234', N'guest@localhost.loc', N'1234', N'Guest', N'Convidado', N'1994-01-01', N'guest.jpg', N'c_guest.jpg', N'Guest is cool guy!', N'2022-06-30 16:37:00', 1);
 INSERT [dbo].[Users] ([UserID], [Username], [PasswordT], [Email], [Pin], [FirstName], [LastName], [DateBirthday], [Avatar], [Cover], [About], [DateAccountCreated], [RoleT]) VALUES (2, N'admin', N'admin1234', N'admin@localhost.loc', N'1234', N'Admin', N'Admin', N'1996-06-04', N'theflash.jpg', N'theflash.jpg', N'Admin is cool guy!', N'2022-07-08 15:26:00', 3);
 SET IDENTITY_INSERT [dbo].[Users] OFF
+
+GO
+
+SET IDENTITY_INSERT [dbo].[UserAuth] ON 
+INSERT [dbo].[UserAuth] ([UserAuthID], [Username], [PasswordT], [UserID], [Avatar], [TokenInfo]) VALUES (1, N'guest', N'guest1234', 1, N'guest.jpg', N'');
+INSERT [dbo].[UserAuth] ([UserAuthID], [Username], [PasswordT], [UserID], [Avatar], [TokenInfo]) VALUES (2, N'admin', N'admin1234', 2, N'theflash.jpg', N'');
+SET IDENTITY_INSERT [dbo].[UserAuth] OFF
 
 GO

@@ -53,6 +53,21 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Token",
+                columns: table => new
+                {
+                    TokenId = table.Column<int>(type: "int", nullable: true),
+                    Authenticated = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Expiration = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AccessToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TVSeries",
                 columns: table => new
                 {
@@ -72,6 +87,22 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TVSeries", x => x.TVSerieID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserAuth",
+                columns: table => new
+                {
+                    UserAuthId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    Password = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    UserID = table.Column<int>(type: "int", nullable: true),
+                    Avatar = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserAuth", x => x.UserAuthId);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,7 +139,13 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                 name: "Movies");
 
             migrationBuilder.DropTable(
+                name: "Token");
+
+            migrationBuilder.DropTable(
                 name: "TVSeries");
+
+            migrationBuilder.DropTable(
+                name: "UserAuth");
 
             migrationBuilder.DropTable(
                 name: "Users");

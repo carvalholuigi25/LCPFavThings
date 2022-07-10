@@ -32,6 +32,10 @@ namespace LCPFavThingsLib.Models
 
     public class UserAuth
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        [PrimaryKey]
+        public int? UserAuthId { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
 
@@ -55,7 +59,7 @@ namespace LCPFavThingsLib.Models
     
     public class Token
     {
-        public Guid? TokenId { get; set; } = Guid.NewGuid();
+        public int? TokenId { get; set; }
         public bool Authenticated { get; set; }
         public string? Created { get; set; }
         public string? Expiration { get; set; }

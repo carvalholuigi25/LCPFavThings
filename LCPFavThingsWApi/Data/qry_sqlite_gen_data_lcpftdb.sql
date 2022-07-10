@@ -1,4 +1,11 @@
-USE LCPFavThingsDB;
+/*open "C:\Users\Luis\Documents\Visual Studio 2022\Projects\LCPFTMain\LCPFavThingsWApi\Data\SQLite\lcpfavthingsdb.db";*/
+
+DROP TABLE IF EXISTS "Games";
+DROP TABLE IF EXISTS "Movies";
+DROP TABLE IF EXISTS "TVSeries";
+DROP TABLE IF EXISTS "Token";
+DROP TABLE IF EXISTS "UserAuth";
+DROP TABLE IF EXISTS "Users";
 
 CREATE TABLE IF NOT EXISTS "Games" (
     "GameID" INTEGER NOT NULL CONSTRAINT "PK_Games" PRIMARY KEY AUTOINCREMENT,
@@ -57,10 +64,20 @@ CREATE TABLE IF NOT EXISTS "Users" (
     "RoleT" INTEGER NULL
 );
 
+CREATE TABLE IF NOT EXISTS "UserAuth" (
+    "UserAuthID" INTEGER NOT NULL CONSTRAINT "PK_UserAuth" PRIMARY KEY AUTOINCREMENT,
+    "Username" TEXT NOT NULL,
+    "PasswordT" TEXT NOT NULL,
+    "UserId" INTEGER NULL,
+    "Avatar" TEXT NULL,
+    "TokenInfo" TEXT NULL
+);
+
 DELETE FROM Games;
 DELETE FROM Movies;
 DELETE FROM TVSeries;
 DELETE FROM Users;
+DELETE FROM UserAuth;
 
 INSERT INTO Games (GameID, Title, DescT, Genre, Category, Cover, Company, Publisher, LangT, DateRelease, Rating) 
 VALUES (1, 'GTA IV', 'Grand Theft Auto IV (2008)', 'Action,Adventure', 'Games', 'gtaiv.jpg', 'Rockstar North', 'Rockstar Games', 'English', '2008-04-29T00:00:00', CAST(8.0 AS Decimal(2, 1)));
@@ -79,3 +96,9 @@ VALUES (1, 'guest', 'guest1234', 'guest@localhost.loc', '1234', 'Guest', 'Convid
 
 INSERT INTO Users (UserID, Username, PasswordT, Email, Pin, FirstName, LastName, DateBirthday, Avatar, Cover, About, DateAccountCreated, RoleT) 
 VALUES (2, 'admin', 'admin1234', 'admin@localhost.loc', '1234', 'Admin', 'Admin', '1996-06-04', 'theflash.jpg', 'theflash.jpg', 'Admin is cool guy!', '2022-07-08 15:26:00', 3);
+
+INSERT INTO UserAuth (UserAuthID, Username, PasswordT, UserId, Avatar, TokenInfo) 
+VALUES (1, 'guest', 'guest1234', 1, 'guest.jpg', '');
+
+INSERT INTO UserAuth (UserAuthID, Username, PasswordT, UserId, Avatar, TokenInfo) 
+VALUES (2, 'admin', 'admin1234', 2, 'theflash.jpg', '');

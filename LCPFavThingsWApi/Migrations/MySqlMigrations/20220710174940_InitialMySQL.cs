@@ -75,6 +75,26 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Token",
+                columns: table => new
+                {
+                    TokenId = table.Column<int>(type: "int", nullable: true),
+                    Authenticated = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Created = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Expiration = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AccessToken = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Message = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "TVSeries",
                 columns: table => new
                 {
@@ -101,6 +121,26 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TVSeries", x => x.TVSerieID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "UserAuth",
+                columns: table => new
+                {
+                    UserAuthId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Username = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Password = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserID = table.Column<int>(type: "int", nullable: true),
+                    Avatar = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserAuth", x => x.UserAuthId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -147,7 +187,13 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                 name: "Movies");
 
             migrationBuilder.DropTable(
+                name: "Token");
+
+            migrationBuilder.DropTable(
                 name: "TVSeries");
+
+            migrationBuilder.DropTable(
+                name: "UserAuth");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -17,6 +17,7 @@ namespace LCPFavThingsWApi.Context
         public DbSet<Movies> Movie { get; set; } = null!;
         public DbSet<TVSeries> TVSerie { get; set; } = null!;
         public DbSet<Users> User { get; set; } = null!;
+        public DbSet<UserAuth> UserAuth { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -97,8 +98,20 @@ namespace LCPFavThingsWApi.Context
                 entity.Property(e => e.RoleT).HasMaxLength(255).IsUnicode(false);
             });
 
+            modelBuilder.Entity<UserAuth>(entity =>
+            {
+                entity.ToTable("UserAuth");
+
+                entity.Property(e => e.UserAuthId).HasColumnName("UserAuthId");
+                entity.Property(e => e.Username).HasMaxLength(255).IsUnicode(false);
+                entity.Property(e => e.Password).HasMaxLength(255).IsUnicode(false);
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.Avatar).HasMaxLength(255).IsUnicode(false);
+            });
+
             modelBuilder.Entity<Token>().HasNoKey();
             modelBuilder.Entity<Users>().Ignore(t => t.TokenInfo);
+            modelBuilder.Entity<UserAuth>().Ignore(t => t.TokenInfo);
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -10,18 +10,18 @@
     @localizer["lnklogin"]
 </h3>
 
-<Microsoft.AspNetCore.Components.Forms.EditForm Model="@users" OnValidSubmit="DoLogin">
+<Microsoft.AspNetCore.Components.Forms.EditForm Model="@usersauth" OnValidSubmit="DoLogin">
     <Microsoft.AspNetCore.Components.Forms.DataAnnotationsValidator />
     <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
 
     <div class="form-group mt-3">
         <label for="username">Username</label>
-        <InputText type="text" class="username form-control" id="username" @bind-Value="users.Username" />
+        <InputText type="text" class="username form-control" id="username" @bind-Value="usersauth.Username" />
     </div>
 
     <div class="form-group mt-3">
         <label for="passwordt">Password</label>
-        <InputText type="password" class="passwordt form-control" id="passwordt" @bind-Value="users.Password" />
+        <InputText type="password" class="passwordt form-control" id="passwordt" @bind-Value="usersauth.Password" />
     </div>
 
     <div class="form-group mt-3 d-inline-block ms-auto me-auto">
@@ -45,8 +45,8 @@
 
     private string valdbm { get; set; } = "server";
 
-    lib.Models.UserAuth users = new lib.Models.UserAuth();
-    List<lib.Models.UserAuth> userslist = new List<lib.Models.UserAuth>();
+    lib.Models.UserAuth usersauth = new lib.Models.UserAuth();
+    List<lib.Models.UserAuth> usersauthlist = new List<lib.Models.UserAuth>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,17 +59,17 @@
 
     private async Task DoLogin()
     {
-        if(users != null)
+        if(usersauth != null)
         {
-            List<lib.Models.UserAuth> userslistv = new List<lib.Models.UserAuth>();
+            var userslistv = new List<lib.Models.UserAuth>();
 
             if (valdbm == "local")
             {
-                userslistv = await locdbdatasrv.CreateAndGet<lib.Models.UserAuth>(users);
+                userslistv = await locdbdatasrv.CreateAndGet<lib.Models.UserAuth>(usersauth);
             }
             else
             {
-                userslistv = await alldatasrv.InsertAndGet<lib.Models.UserAuth>("auth", users);
+                userslistv = await alldatasrv.InsertAndGet<lib.Models.UserAuth>("auth", usersauth);
             }
 
             if (userslistv != null)
@@ -82,7 +82,7 @@
 
                     if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
                     {
-                        await JS.InvokeVoidAsync("alert", $"Succesfully logged as {users.Username}!");
+                        await JS.InvokeVoidAsync("alert", $"Succesfully logged as {usersauth.Username}!");
                         navman.NavigateTo("/", true);
                     }
                 }
@@ -95,7 +95,7 @@
                 }
 
                 await JS.InvokeVoidAsync("alert", $@"
-                Error: Occurred error when trying to log with this account {users.Username}.
+                Error: Occurred error when trying to log with this account {usersauth.Username}.
                 {Environment.NewLine}
                 Reasons:
                 {Environment.NewLine}
@@ -112,6 +112,6 @@
 
     private void Clear()
     {
-        users = new lib.Models.UserAuth();
+        usersauth = new lib.Models.UserAuth();
     }
 }

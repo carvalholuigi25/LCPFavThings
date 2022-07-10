@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20220708160939_InitialSQLServer")]
+    [Migration("20220710175027_InitialSQLServer")]
     partial class InitialSQLServer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -228,6 +228,39 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                     b.ToTable("TVSeries", (string)null);
                 });
 
+            modelBuilder.Entity("LCPFavThingsWApi.Models.UserAuth", b =>
+                {
+                    b.Property<int?>("UserAuthId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("UserAuthId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("UserAuthId"), 1L, 1);
+
+                    b.Property<string>("Avatar")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Password")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserID");
+
+                    b.Property<string>("Username")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("UserAuthId");
+
+                    b.ToTable("UserAuth", (string)null);
+                });
+
             modelBuilder.Entity("LCPFavThingsWApi.Models.Users", b =>
                 {
                     b.Property<int?>("UserId")
@@ -296,6 +329,29 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.Token", b =>
+                {
+                    b.Property<string>("AccessToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Authenticated")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Created")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Expiration")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TokenId")
+                        .HasColumnType("int");
+
+                    b.ToTable("Token");
                 });
 #pragma warning restore 612, 618
         }

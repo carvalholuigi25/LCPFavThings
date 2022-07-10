@@ -7,6 +7,8 @@ cd "%projpth%"
 
 call "%projpth%\\Scripts\\clear_cache.bat"
 
+cls
+
 if exist "%projpth%\\Data\\SQLite" (
 	rmdir /s /q "%projpth%\\Data\\SQLite"
 )

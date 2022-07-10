@@ -33,6 +33,10 @@ namespace LCPFavThingsWApi.Models
 
     public class UserAuth
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        [PrimaryKey]
+        public int? UserAuthId { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
 
