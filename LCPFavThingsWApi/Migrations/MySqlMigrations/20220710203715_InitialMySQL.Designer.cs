@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LCPFavThingsWApi.Migrations.MySqlMigrations
 {
     [DbContext(typeof(DBMySQLContext))]
-    [Migration("20220710174940_InitialMySQL")]
+    [Migration("20220710203715_InitialMySQL")]
     partial class InitialMySQL
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -318,27 +318,36 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.Token", b =>
+            modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.UserToken", b =>
                 {
                     b.Property<string>("AccessToken")
-                        .HasColumnType("longtext");
+                        .IsUnicode(false)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Authenticated")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bool(1)");
 
                     b.Property<string>("Created")
-                        .HasColumnType("longtext");
+                        .IsUnicode(false)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Expiration")
-                        .HasColumnType("longtext");
+                        .IsUnicode(false)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Message")
-                        .HasColumnType("longtext");
+                        .IsUnicode(false)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TokenId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("TokenId");
 
-                    b.ToTable("Token");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserId");
+
+                    b.ToTable("UserToken", (string)null);
                 });
 #pragma warning restore 612, 618
         }

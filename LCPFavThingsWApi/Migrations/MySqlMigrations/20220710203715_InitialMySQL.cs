@@ -75,26 +75,6 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Token",
-                columns: table => new
-                {
-                    TokenId = table.Column<int>(type: "int", nullable: true),
-                    Authenticated = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Created = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Expiration = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    AccessToken = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Message = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "TVSeries",
                 columns: table => new
                 {
@@ -176,6 +156,23 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     table.PrimaryKey("PK_Users", x => x.UserID);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "UserToken",
+                columns: table => new
+                {
+                    TokenId = table.Column<int>(type: "int", nullable: true),
+                    Authenticated = table.Column<bool>(type: "bool(1)", nullable: false),
+                    Created = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    Expiration = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    AccessToken = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -187,9 +184,6 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                 name: "Movies");
 
             migrationBuilder.DropTable(
-                name: "Token");
-
-            migrationBuilder.DropTable(
                 name: "TVSeries");
 
             migrationBuilder.DropTable(
@@ -197,6 +191,9 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "UserToken");
         }
     }
 }

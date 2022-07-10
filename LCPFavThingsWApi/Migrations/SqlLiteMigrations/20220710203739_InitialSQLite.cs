@@ -53,21 +53,6 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Token",
-                columns: table => new
-                {
-                    TokenId = table.Column<int>(type: "INTEGER", nullable: true),
-                    Authenticated = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Created = table.Column<string>(type: "TEXT", nullable: true),
-                    Expiration = table.Column<string>(type: "TEXT", nullable: true),
-                    AccessToken = table.Column<string>(type: "TEXT", nullable: true),
-                    Message = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TVSeries",
                 columns: table => new
                 {
@@ -128,6 +113,22 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                 {
                     table.PrimaryKey("PK_Users", x => x.UserID);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "UserToken",
+                columns: table => new
+                {
+                    TokenId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Authenticated = table.Column<bool>(type: "bool", nullable: false),
+                    Created = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    Expiration = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    AccessToken = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -139,9 +140,6 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                 name: "Movies");
 
             migrationBuilder.DropTable(
-                name: "Token");
-
-            migrationBuilder.DropTable(
                 name: "TVSeries");
 
             migrationBuilder.DropTable(
@@ -149,6 +147,9 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "UserToken");
         }
     }
 }

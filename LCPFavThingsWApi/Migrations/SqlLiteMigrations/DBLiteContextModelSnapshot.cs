@@ -314,27 +314,36 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.Token", b =>
+            modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.UserToken", b =>
                 {
                     b.Property<string>("AccessToken")
-                        .HasColumnType("TEXT");
+                        .IsUnicode(false)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Authenticated")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bool");
 
                     b.Property<string>("Created")
-                        .HasColumnType("TEXT");
+                        .IsUnicode(false)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Expiration")
-                        .HasColumnType("TEXT");
+                        .IsUnicode(false)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Message")
-                        .HasColumnType("TEXT");
+                        .IsUnicode(false)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TokenId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("TokenId");
 
-                    b.ToTable("Token");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("UserId");
+
+                    b.ToTable("UserToken", (string)null);
                 });
 #pragma warning restore 612, 618
         }

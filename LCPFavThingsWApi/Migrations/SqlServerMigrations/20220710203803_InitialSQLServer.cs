@@ -53,21 +53,6 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Token",
-                columns: table => new
-                {
-                    TokenId = table.Column<int>(type: "int", nullable: true),
-                    Authenticated = table.Column<bool>(type: "bit", nullable: false),
-                    Created = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Expiration = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AccessToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TVSeries",
                 columns: table => new
                 {
@@ -128,6 +113,22 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                 {
                     table.PrimaryKey("PK_Users", x => x.UserID);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "UserToken",
+                columns: table => new
+                {
+                    TokenId = table.Column<int>(type: "int", nullable: true),
+                    Authenticated = table.Column<bool>(type: "bool", nullable: false),
+                    Created = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    Expiration = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    AccessToken = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -139,9 +140,6 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                 name: "Movies");
 
             migrationBuilder.DropTable(
-                name: "Token");
-
-            migrationBuilder.DropTable(
                 name: "TVSeries");
 
             migrationBuilder.DropTable(
@@ -149,6 +147,9 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "UserToken");
         }
     }
 }

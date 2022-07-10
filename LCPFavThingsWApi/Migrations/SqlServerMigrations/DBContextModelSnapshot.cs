@@ -329,27 +329,36 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.Token", b =>
+            modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.UserToken", b =>
                 {
                     b.Property<string>("AccessToken")
+                        .IsUnicode(false)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Authenticated")
-                        .HasColumnType("bit");
+                        .HasColumnType("bool");
 
                     b.Property<string>("Created")
+                        .IsUnicode(false)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Expiration")
+                        .IsUnicode(false)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Message")
+                        .IsUnicode(false)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TokenId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("TokenId");
 
-                    b.ToTable("Token");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserId");
+
+                    b.ToTable("UserToken", (string)null);
                 });
 #pragma warning restore 612, 618
         }

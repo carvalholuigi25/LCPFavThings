@@ -36,7 +36,7 @@ public class AuthController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-    public async Task<ActionResult<Users?>> Post(
+    public async Task<ActionResult<User?>> Post(
         [FromBody] User utilizador,
         [FromServices] ILogger<AuthController> logger,
         [FromServices] AccessManager accessManager)
@@ -46,8 +46,9 @@ public class AuthController : ControllerBase
         if (utilizador is not null && accessManager.ValidateCredentials(utilizador))
         {
             logger.LogInformation($"Sucesso na autenticação do utilizador: {utilizador.Username}");
-            return new Users()
+            return new User()
             {
+                UserAuthId = 1,
                 Username = utilizador.Username,
                 UserId = await GetIdFromUser(utilizador.Username),
                 Avatar = await GetAvatarFromUser(utilizador.Username),

@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS "Movies";
 DROP TABLE IF EXISTS "TVSeries";
 DROP TABLE IF EXISTS "Token";
 DROP TABLE IF EXISTS "UserAuth";
+DROP TABLE IF EXISTS "UserToken";
 DROP TABLE IF EXISTS "Users";
 
 CREATE TABLE IF NOT EXISTS "Games" (
@@ -73,11 +74,22 @@ CREATE TABLE IF NOT EXISTS "UserAuth" (
     "TokenInfo" TEXT NULL
 );
 
+CREATE TABLE IF NOT EXISTS "UserToken" (
+    "TokenId" INTEGER NOT NULL CONSTRAINT "PK_UserToken" PRIMARY KEY AUTOINCREMENT,
+    "Authenticated" BOOLEAN NULL,
+    "Created" TEXT NULL,
+    "Expiration" TEXT NULL,
+    "AccessToken" TEXT NULL,
+    "Message" TEXT NULL,
+    "UserId" INTEGER NULL
+);
+
 DELETE FROM Games;
 DELETE FROM Movies;
 DELETE FROM TVSeries;
 DELETE FROM Users;
 DELETE FROM UserAuth;
+DELETE FROM UserToken;
 
 INSERT INTO Games (GameID, Title, DescT, Genre, Category, Cover, Company, Publisher, LangT, DateRelease, Rating) 
 VALUES (1, 'GTA IV', 'Grand Theft Auto IV (2008)', 'Action,Adventure', 'Games', 'gtaiv.jpg', 'Rockstar North', 'Rockstar Games', 'English', '2008-04-29T00:00:00', CAST(8.0 AS Decimal(2, 1)));

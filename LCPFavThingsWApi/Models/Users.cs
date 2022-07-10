@@ -28,7 +28,7 @@ namespace LCPFavThingsWApi.Models
         public string? About { get; set; }
         public DateTime? DateAccountCreated { get; set; } = DateTime.UtcNow;
         public UsersRoles? RoleT { get; set; } = UsersRoles.guest;
-        public Token? TokenInfo { get; set; }
+        public UserToken? TokenInfo { get; set; }
     }
 
     public class UserAuth
@@ -48,7 +48,7 @@ namespace LCPFavThingsWApi.Models
         public string? Avatar { get; set; }
 
         [SwaggerIgnore]
-        public Token? TokenInfo { get; set; }
+        public UserToken? TokenInfo { get; set; }
     }
 
     public enum UsersRoles

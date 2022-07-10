@@ -18,6 +18,7 @@ namespace LCPFavThingsWApi.Context
         public DbSet<TVSeries> TVSerie { get; set; } = null!;
         public DbSet<Users> User { get; set; } = null!;
         public DbSet<UserAuth> UserAuth { get; set; } = null!;
+        public DbSet<UserToken> UserToken { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -109,7 +110,20 @@ namespace LCPFavThingsWApi.Context
                 entity.Property(e => e.Avatar).HasMaxLength(255).IsUnicode(false);
             });
 
-            modelBuilder.Entity<Token>().HasNoKey();
+            modelBuilder.Entity<UserToken>(entity =>
+            {
+                entity.ToTable("UserToken");
+                entity.HasNoKey();
+
+                entity.Property(e => e.TokenId).HasColumnName("TokenId");
+                entity.Property(e => e.Authenticated).HasColumnType("bool");
+                entity.Property(e => e.Created).HasColumnType("nvarchar(max)").IsUnicode(false);
+                entity.Property(e => e.Expiration).HasColumnType("nvarchar(max)").IsUnicode(false);
+                entity.Property(e => e.AccessToken).HasColumnType("nvarchar(max)").IsUnicode(false);
+                entity.Property(e => e.Message).HasColumnType("nvarchar(max)").IsUnicode(false);
+                entity.Property(e => e.UserId).HasColumnName("UserId");
+            });
+
             modelBuilder.Entity<Users>().Ignore(t => t.TokenInfo);
             modelBuilder.Entity<UserAuth>().Ignore(t => t.TokenInfo);
 

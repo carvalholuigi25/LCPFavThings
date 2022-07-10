@@ -77,6 +77,17 @@ CREATE TABLE IF NOT EXISTS UserAuth (
    PRIMARY KEY(UserAuthId)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS UserToken (
+   TokenId int not null auto_increment,
+   Authenticated bit null,
+   Created varchar(255) null,
+   Expiration varchar(255) null,
+   AccessToken varchar(255) null,
+   Message varchar(255) null,
+   UserId int null,
+   PRIMARY KEY(TokenId)
+) ENGINE=InnoDB;
+
 INSERT Games (Title,DescT,Genre,Category,Cover,Company,Publisher,LangT,DateRelease,Rating) 
 VALUES ('GTA IV','Grand Theft Auto IV (2008)','Action,Adventure','Games','gtaiv.jpg','Rockstar North','Rockstar Games','English','2008-04-29T00:00:00',9);
 

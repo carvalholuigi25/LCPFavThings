@@ -50,7 +50,7 @@ public class AccessManager
         return credenciaisValidas;
     }
 
-    public Token GenerateToken(User user)
+    public UserToken GenerateToken(User user)
     {
         ClaimsIdentity identity = new(
             new GenericIdentity(user.Username!, "Login"),
@@ -83,7 +83,8 @@ public class AccessManager
             Created = dataCriacao.ToString("yyyy-MM-dd HH:mm:ss"),
             Expiration = dataExpiracao.ToString("yyyy-MM-dd HH:mm:ss"),
             AccessToken = token,
-            Message = "OK"
+            Message = "OK",
+            UserId = user.UserId
         };
     }
 }

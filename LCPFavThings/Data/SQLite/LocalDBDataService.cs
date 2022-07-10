@@ -19,6 +19,8 @@ namespace LCPFavThings.Data.SQLite
                 conn.CreateTableAsync<Movies>();
                 conn.CreateTableAsync<TVSeries>();
                 conn.CreateTableAsync<Users>();
+                conn.CreateTableAsync<UserAuth>();
+                conn.CreateTableAsync<UserToken>();
             }
         }
 
@@ -30,7 +32,10 @@ namespace LCPFavThings.Data.SQLite
         public async Task<List<T>> CreateAndGet<T>(T item) where T : new()
         {
             await conn.InsertAsync(item);
-            return await Read<T>();
+            var mydur = await conn.Table<T>().ToArrayAsync();
+            var lst = new List<T>();
+            lst.Add(mydur[0]);
+            return lst.Count > 0 ? lst : default;
         }
 
         public async Task<List<T>> Read<T>() where T : new()

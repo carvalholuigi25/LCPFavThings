@@ -27,7 +27,7 @@ namespace LCPFavThingsLib.Models
         public string? About { get; set; }
         public DateTime? DateAccountCreated { get; set; } = DateTime.UtcNow;
         public UsersRoles? RoleT { get; set; } = UsersRoles.user;
-        public Token? TokenInfo { get; set; }
+        public UserToken? TokenInfo { get; set; }
     }
 
     public class UserAuth
@@ -44,10 +44,10 @@ namespace LCPFavThingsLib.Models
         public int? UserId { get; set; } = 1;
 
         [SwaggerIgnore]
-        public string? Avatar { get; set; }
+        public string? Avatar { get; set; } = "guest.jpg";
 
         [SwaggerIgnore]
-        public Token? TokenInfo { get; set; }
+        public UserToken? TokenInfo { get; set; }
     }
 
     public enum UsersRoles
@@ -58,13 +58,17 @@ namespace LCPFavThingsLib.Models
         admin = 3
     }
     
-    public class Token
+    public class UserToken
     {
-        public int? TokenId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        [PrimaryKey]
+        public int? TokenId { get; set; } = 1;
         public bool Authenticated { get; set; }
         public string? Created { get; set; }
         public string? Expiration { get; set; }
         public string? AccessToken { get; set; }
         public string? Message { get; set; }
+        public int? UserId { get; set; } = 1;
     }
 }

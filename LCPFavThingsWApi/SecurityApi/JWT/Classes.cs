@@ -19,7 +19,7 @@ public class TokenConfigurations
     public string? SecretJwtKey { get; set; }
 }
 
-public class Token
+public class UserToken
 {
     public int? TokenId { get; set; }
     public bool Authenticated { get; set; }
@@ -27,4 +27,5 @@ public class Token
     public string? Expiration { get; set; }
     public string? AccessToken { get; set; }
     public string? Message { get; set; }
+    public int? UserId { get; set; } = 1;
 }
