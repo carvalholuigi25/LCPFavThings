@@ -28,8 +28,8 @@ namespace LCPFavThingsWApi.Models
         public string? About { get; set; }
         public DateTime? DateAccountCreated { get; set; } = DateTime.UtcNow;
         public UsersRoles? RoleT { get; set; } = UsersRoles.guest;
+
         [NotMapped]
-        [JsonIgnore]
         public Token? TokenInfo { get; set; }
     }
 
@@ -37,8 +37,6 @@ namespace LCPFavThingsWApi.Models
     {
         public string? Username { get; set; }
         public string? Password { get; set; }
-        [JsonIgnore]
-        public Token? TokenInfo { get; set; }
     }
 
     public enum UsersRoles

@@ -74,26 +74,17 @@
 
             if (userslistv != null)
             {
-                await ls.Save("authinfo", JsonConvert.SerializeObject(
-                    new lib.Models.UserAuth()
-                    {
-                        Username = users.Username,
-                        TokenInfo = new lib.Models.Token()
-                        {
-                            TokenId = userslistv[0].TokenInfo.TokenId,
-                            Authenticated = userslistv[0].TokenInfo.Authenticated,
-                            AccessToken = userslistv[0].TokenInfo.AccessToken,
-                            Created = userslistv[0].TokenInfo.Created,
-                            Expiration = userslistv[0].TokenInfo.Expiration,
-                            Message = userslistv[0].TokenInfo.Message
-                        }
-                    }
-                ));
+                var jspdata = userslistv.Count > 0 ? JsonConvert.SerializeObject(userslistv[0]) : null;
 
-                if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
+                if(jspdata != null)
                 {
-                    await JS.InvokeVoidAsync("alert", $"Succesfully logged as {users.Username}!");
-                    navman.NavigateTo("/", true);
+                    await ls.Save("authinfo", jspdata);
+
+                    if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
+                    {
+                        await JS.InvokeVoidAsync("alert", $"Succesfully logged as {users.Username}!");
+                        navman.NavigateTo("/", true);
+                    }
                 }
             }
             else

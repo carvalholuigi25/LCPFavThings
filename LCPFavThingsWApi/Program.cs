@@ -2,7 +2,6 @@ using LCPFavThingsWApi.Context;
 using LCPFavThingsWApi.Hubs;
 using LCPFavThingsWApi.SecurityApi.JWT;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;

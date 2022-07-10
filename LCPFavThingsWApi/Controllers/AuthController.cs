@@ -4,6 +4,9 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using LCPFavThingsWApi.SecurityApi.JWT;
+using LCPFavThingsWApi.Context;
+using Microsoft.EntityFrameworkCore;
+using LCPFavThingsWApi.Models;
 
 namespace LCPFavThingsWApi.Controllers;
 
@@ -11,11 +14,24 @@ namespace LCPFavThingsWApi.Controllers;
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {
+    private readonly DBContext _context;
+
+    public AuthController(DBContext context)
+    {
+        _context = context;
+    }
+
+    // GET: api/Users
+    private async Task<string?> GetAvatarFromUser(User myu)
+    {
+        return await _context.User.Where(x => x.Username == myu.Username).Select(x => x.Avatar).FirstOrDefaultAsync();
+    }
+
     [AllowAnonymous]
     [HttpPost]
-    [ProducesResponseType(typeof(Token), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Users), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-    public ActionResult<Token> Post(
+    public async Task<ActionResult<Users?>> Post(
         [FromBody] User utilizador,
         [FromServices] ILogger<AuthController> logger,
         [FromServices] AccessManager accessManager)
@@ -25,7 +41,12 @@ public class AuthController : ControllerBase
         if (utilizador is not null && accessManager.ValidateCredentials(utilizador))
         {
             logger.LogInformation($"Sucesso na autenticação do utilizador: {utilizador.Username}");
-            return accessManager.GenerateToken(utilizador);
+            return new Users()
+            {
+                Username = utilizador.Username,
+                Avatar = await GetAvatarFromUser(utilizador),
+                TokenInfo = accessManager.GenerateToken(utilizador)
+            };
         }
         else
         {
