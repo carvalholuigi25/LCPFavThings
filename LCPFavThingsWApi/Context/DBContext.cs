@@ -1,4 +1,5 @@
 ﻿using LCPFavThingsWApi.Models;
+using LCPFavThingsWApi.SecurityApi.JWT;
 using Microsoft.EntityFrameworkCore;
 
 namespace LCPFavThingsWApi.Context
@@ -95,6 +96,9 @@ namespace LCPFavThingsWApi.Context
                 entity.Property(e => e.DateAccountCreated).HasColumnType("datetime");
                 entity.Property(e => e.RoleT).HasMaxLength(255).IsUnicode(false);
             });
+
+            modelBuilder.Entity<Token>().HasNoKey();
+            modelBuilder.Entity<Users>().Ignore(t => t.TokenInfo);
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -21,6 +21,7 @@ public class TokenConfigurations
 
 public class Token
 {
+    public Guid? TokenId { get; set; } = Guid.NewGuid();
     public bool Authenticated { get; set; }
     public string? Created { get; set; }
     public string? Expiration { get; set; }

@@ -1,4 +1,5 @@
 using LCPFavThingsWApi.Context;
+using LCPFavThingsWApi.Filters;
 using LCPFavThingsWApi.Hubs;
 using LCPFavThingsWApi.SecurityApi.JWT;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -58,6 +59,9 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
     });
+
+    //Source: https://github.com/domaindrivendev/Swashbuckle.WebApi/issues/1230#issuecomment-751962760
+    c.SchemaFilter<SwaggerSkipPropertyFilter>();
 });
 
 //sources:

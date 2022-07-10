@@ -21,15 +21,20 @@ public class AuthController : ControllerBase
         _context = context;
     }
 
-    // GET: api/Users
-    private async Task<string?> GetAvatarFromUser(User myu)
+
+    private async Task<int?> GetIdFromUser(string? myu)
     {
-        return await _context.User.Where(x => x.Username == myu.Username).Select(x => x.Avatar).FirstOrDefaultAsync();
+        return await _context.User.Where(x => x.Username == myu).Select(x => x.UserId).FirstOrDefaultAsync();
+    }
+
+    private async Task<string?> GetAvatarFromUser(string? myu)
+    {
+        return await _context.User.Where(x => x.Username == myu).Select(x => x.Avatar).FirstOrDefaultAsync();
     }
 
     [AllowAnonymous]
     [HttpPost]
-    [ProducesResponseType(typeof(Users), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     public async Task<ActionResult<Users?>> Post(
         [FromBody] User utilizador,
@@ -44,7 +49,8 @@ public class AuthController : ControllerBase
             return new Users()
             {
                 Username = utilizador.Username,
-                Avatar = await GetAvatarFromUser(utilizador),
+                UserId = await GetIdFromUser(utilizador.Username),
+                Avatar = await GetAvatarFromUser(utilizador.Username),
                 TokenInfo = accessManager.GenerateToken(utilizador)
             };
         }
