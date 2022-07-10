@@ -36,6 +36,7 @@ namespace LCPFavThings.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [PrimaryKey]
+        [SwaggerIgnore]
         public int? UserAuthId { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }

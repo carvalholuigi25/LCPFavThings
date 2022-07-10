@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS "Users" (
 CREATE TABLE IF NOT EXISTS "UserAuth" (
     "UserAuthID" INTEGER NOT NULL CONSTRAINT "PK_UserAuth" PRIMARY KEY AUTOINCREMENT,
     "Username" TEXT NOT NULL,
-    "PasswordT" TEXT NOT NULL,
+    "Password" TEXT NOT NULL,
     "UserId" INTEGER NULL,
     "Avatar" TEXT NULL,
     "TokenInfo" TEXT NULL
@@ -97,8 +97,8 @@ VALUES (1, 'guest', 'guest1234', 'guest@localhost.loc', '1234', 'Guest', 'Convid
 INSERT INTO Users (UserID, Username, PasswordT, Email, Pin, FirstName, LastName, DateBirthday, Avatar, Cover, About, DateAccountCreated, RoleT) 
 VALUES (2, 'admin', 'admin1234', 'admin@localhost.loc', '1234', 'Admin', 'Admin', '1996-06-04', 'theflash.jpg', 'theflash.jpg', 'Admin is cool guy!', '2022-07-08 15:26:00', 3);
 
-INSERT INTO UserAuth (UserAuthID, Username, PasswordT, UserId, Avatar, TokenInfo) 
+INSERT INTO UserAuth (UserAuthID, Username, Password, UserId, Avatar, TokenInfo) 
 VALUES (1, 'guest', 'guest1234', 1, 'guest.jpg', '');
 
-INSERT INTO UserAuth (UserAuthID, Username, PasswordT, UserId, Avatar, TokenInfo) 
+INSERT INTO UserAuth (UserAuthID, Username, Password, UserId, Avatar, TokenInfo) 
 VALUES (2, 'admin', 'admin1234', 2, 'theflash.jpg', '');
