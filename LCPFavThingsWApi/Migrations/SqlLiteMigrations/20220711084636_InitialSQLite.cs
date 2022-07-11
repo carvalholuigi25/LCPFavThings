@@ -13,7 +13,7 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                 name: "Games",
                 columns: table => new
                 {
-                    GameID = table.Column<int>(type: "INTEGER", nullable: false)
+                    GameId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", unicode: false, maxLength: 100, nullable: false),
                     DescT = table.Column<string>(type: "TEXT", unicode: false, maxLength: 1024, nullable: false),
@@ -28,14 +28,14 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Games", x => x.GameID);
+                    table.PrimaryKey("PK_Games", x => x.GameId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Movies",
                 columns: table => new
                 {
-                    MovieID = table.Column<int>(type: "INTEGER", nullable: false)
+                    MovieId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", unicode: false, maxLength: 100, nullable: false),
                     DescT = table.Column<string>(type: "TEXT", unicode: false, maxLength: 1024, nullable: false),
@@ -49,14 +49,14 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Movies", x => x.MovieID);
+                    table.PrimaryKey("PK_Movies", x => x.MovieId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "TVSeries",
                 columns: table => new
                 {
-                    TVSerieID = table.Column<int>(type: "INTEGER", nullable: false)
+                    TVSerieId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", unicode: false, maxLength: 100, nullable: false),
                     DescT = table.Column<string>(type: "TEXT", unicode: false, maxLength: 1024, nullable: false),
@@ -71,7 +71,7 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TVSeries", x => x.TVSerieID);
+                    table.PrimaryKey("PK_TVSeries", x => x.TVSerieId);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,7 +82,8 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Username = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
                     Password = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
-                    UserID = table.Column<int>(type: "INTEGER", nullable: true),
+                    RoleT = table.Column<int>(type: "INTEGER", unicode: false, maxLength: 255, nullable: true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
                     Avatar = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true)
                 },
                 constraints: table =>
@@ -94,7 +95,7 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserID = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Username = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: false),
                     PasswordT = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: false),
@@ -111,7 +112,7 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserID);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,11 +120,11 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                 columns: table => new
                 {
                     TokenId = table.Column<int>(type: "INTEGER", nullable: true),
-                    Authenticated = table.Column<bool>(type: "bool", nullable: false),
-                    Created = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
-                    Expiration = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
-                    AccessToken = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
-                    Message = table.Column<string>(type: "nvarchar(max)", unicode: false, nullable: true),
+                    Authenticated = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
+                    Expiration = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
+                    AccessToken = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
+                    Message = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>

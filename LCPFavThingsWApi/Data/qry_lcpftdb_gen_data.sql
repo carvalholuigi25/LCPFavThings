@@ -58,7 +58,7 @@ GO
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'Games')
 BEGIN
 	CREATE TABLE [dbo].[Games](
-		[GameID] [int] IDENTITY(1,1) NOT NULL,
+		[GameId] [int] IDENTITY(1,1) NOT NULL,
 		[Title] [varchar](100) NOT NULL,
 		[DescT] [varchar](1024) NOT NULL,
 		[Genre] [varchar](20) NOT NULL,
@@ -71,7 +71,7 @@ BEGIN
 		[Rating] [decimal](2, 1) NOT NULL,
 	 CONSTRAINT [PK_Games] PRIMARY KEY CLUSTERED 
 	(
-		[GameID] ASC
+		[GameId] ASC
 	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]
 END
@@ -81,7 +81,7 @@ GO
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'Movies')
 BEGIN
 	CREATE TABLE [dbo].[Movies](
-		[MovieID] [int] IDENTITY(1,1) NOT NULL,
+		[MovieId] [int] IDENTITY(1,1) NOT NULL,
 		[Title] [varchar](100) NOT NULL,
 		[DescT] [varchar](1024) NOT NULL,
 		[Genre] [varchar](20) NOT NULL,
@@ -93,7 +93,7 @@ BEGIN
 		[Rating] [decimal](2, 1) NOT NULL,
 	 CONSTRAINT [PK_Movies] PRIMARY KEY CLUSTERED 
 	(
-		[MovieID] ASC
+		[MovieId] ASC
 	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]
 END
@@ -103,7 +103,7 @@ GO
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'TVSeries')
 BEGIN
 	CREATE TABLE [dbo].[TVSeries](
-		[TVSerieID] [int] IDENTITY(1,1) NOT NULL,
+		[TVSerieId] [int] IDENTITY(1,1) NOT NULL,
 		[Title] [varchar](100) NOT NULL,
 		[DescT] [varchar](1024) NOT NULL,
 		[Genre] [varchar](20) NOT NULL,
@@ -116,7 +116,7 @@ BEGIN
 		[Rating] [decimal](2, 1) NOT NULL,
 	 CONSTRAINT [PK_TVSeries] PRIMARY KEY CLUSTERED 
 	(
-		[TVSerieID] ASC
+		[TVSerieId] ASC
 	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]
 END
@@ -126,7 +126,7 @@ GO
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'Users')
 BEGIN
 	CREATE TABLE [dbo].[Users](
-		[UserID] [int] IDENTITY(1,1) NOT NULL,
+		[UserId] [int] IDENTITY(1,1) NOT NULL,
 		[Username] [varchar](255) NOT NULL,
 		[PasswordT] [varchar](255) NOT NULL,
 		[Email] [varchar](255) NULL,
@@ -141,7 +141,7 @@ BEGIN
 		[RoleT] [int] NULL,
 		CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
 	(
-		[UserID] ASC
+		[UserId] ASC
 	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]
 END
@@ -151,15 +151,16 @@ GO
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'UserAuth')
 BEGIN
 	CREATE TABLE [dbo].[UserAuth](
-		[UserAuthID] [int] IDENTITY(1,1) NOT NULL,
+		[UserAuthId] [int] IDENTITY(1,1) NOT NULL,
 		[Username] [varchar](255) NOT NULL,
 		[PasswordT] [varchar](255) NOT NULL,
-		[UserID] [int] NULL,
+		[RoleT] [int] NULL,
+		[UserId] [int] NULL,
 		[Avatar] [varchar](255) NULL,
 		[TokenInfo] [text] NULL,
 		CONSTRAINT [PK_UserAuth] PRIMARY KEY CLUSTERED 
 	(
-		[UserAuthID] ASC
+		[UserAuthId] ASC
 	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 	) ON [PRIMARY]
 END
@@ -195,34 +196,40 @@ DELETE FROM dbo.UserToken;
 GO
 
 SET IDENTITY_INSERT [dbo].[Games] ON 
-INSERT [dbo].[Games] ([GameID], [Title], [DescT], [Genre], [Category], [Cover], [Company], [Publisher], [LangT], [DateRelease], [Rating]) VALUES (1, N'GTA IV', N'Grand Theft Auto IV (2008)', N'Action,Adventure', N'Games', N'gtaiv.jpg', N'Rockstar North', N'Rockstar Games', N'English', N'2008-04-29T00:00:00.0000000', CAST(8.0 AS Decimal(2, 1)))
+INSERT [dbo].[Games] ([GameId], [Title], [DescT], [Genre], [Category], [Cover], [Company], [Publisher], [LangT], [DateRelease], [Rating]) VALUES (1, N'GTA IV', N'Grand Theft Auto IV (2008)', N'Action,Adventure', N'Games', N'gtaiv.jpg', N'Rockstar North', N'Rockstar Games', N'English', N'2008-04-29T00:00:00.0000000', CAST(8.0 AS Decimal(2, 1)))
 SET IDENTITY_INSERT [dbo].[Games] OFF
 
 GO
 
 SET IDENTITY_INSERT [dbo].[Movies] ON 
-INSERT [dbo].[Movies] ([MovieID], [Title], [DescT], [Genre], [Category], [Cover], [Company], [LangT], [Duration], [Rating]) VALUES (1, N'The Fate of the Furious (FF8)', N'Fast and Furious 8 (2017)', N'Action,Adventure', N'Movies', N'ff8.jpg', N'Universal Pictures', N'English', 136, CAST(8.3 AS Decimal(2, 1)))
+INSERT [dbo].[Movies] ([MovieId], [Title], [DescT], [Genre], [Category], [Cover], [Company], [LangT], [Duration], [Rating]) VALUES (1, N'The Fate of the Furious (FF8)', N'Fast and Furious 8 (2017)', N'Action,Adventure', N'Movies', N'ff8.jpg', N'Universal Pictures', N'English', 136, CAST(8.3 AS Decimal(2, 1)))
 SET IDENTITY_INSERT [dbo].[Movies] OFF
 
 GO
 
 SET IDENTITY_INSERT [dbo].[TVSeries] ON 
-INSERT [dbo].[TVSeries] ([TVSerieID], [Title], [DescT], [Genre], [Category], [Cover], [Company], [LangT], [TotalSeasons], [Duration], [Rating]) VALUES (1, N'Fear of The Walking Dead', N'Fear of The Walking Dead (2015)', N'Action,Adventure', N'TV Series', N'ftwd.jpg', N'Fox,AMC', N'English,Spanish', 8, 45, CAST(9.0 AS Decimal(2, 1)));
-INSERT [dbo].[TVSeries] ([TVSerieID], [Title], [DescT], [Genre], [Category], [Cover], [Company], [LangT], [TotalSeasons], [Duration], [Rating]) VALUES (2, N'The Flash', N'The Flash (2014)', N'Action,Adventure', N'TV Series', N'theflash.jpg', N'CW', N'English', 8, 45, CAST(9.5 AS Decimal(2, 1)));
+INSERT [dbo].[TVSeries] ([TVSerieId], [Title], [DescT], [Genre], [Category], [Cover], [Company], [LangT], [TotalSeasons], [Duration], [Rating]) VALUES (1, N'Fear of The Walking Dead', N'Fear of The Walking Dead (2015)', N'Action,Adventure', N'TV Series', N'ftwd.jpg', N'Fox,AMC', N'English,Spanish', 8, 45, CAST(9.0 AS Decimal(2, 1)));
+INSERT [dbo].[TVSeries] ([TVSerieId], [Title], [DescT], [Genre], [Category], [Cover], [Company], [LangT], [TotalSeasons], [Duration], [Rating]) VALUES (2, N'The Flash', N'The Flash (2014)', N'Action,Adventure', N'TV Series', N'theflash.jpg', N'CW', N'English', 8, 45, CAST(9.5 AS Decimal(2, 1)));
 SET IDENTITY_INSERT [dbo].[TVSeries] OFF
 
 GO
 
 SET IDENTITY_INSERT [dbo].[Users] ON 
-INSERT [dbo].[Users] ([UserID], [Username], [PasswordT], [Email], [Pin], [FirstName], [LastName], [DateBirthday], [Avatar], [Cover], [About], [DateAccountCreated], [RoleT]) VALUES (1, N'guest', N'guest1234', N'guest@localhost.loc', N'1234', N'Guest', N'Convidado', N'1994-01-01', N'guest.jpg', N'c_guest.jpg', N'Guest is cool guy!', N'2022-06-30 16:37:00', 1);
-INSERT [dbo].[Users] ([UserID], [Username], [PasswordT], [Email], [Pin], [FirstName], [LastName], [DateBirthday], [Avatar], [Cover], [About], [DateAccountCreated], [RoleT]) VALUES (2, N'admin', N'admin1234', N'admin@localhost.loc', N'1234', N'Admin', N'Admin', N'1996-06-04', N'theflash.jpg', N'theflash.jpg', N'Admin is cool guy!', N'2022-07-08 15:26:00', 3);
+INSERT [dbo].[Users] ([UserId], [Username], [PasswordT], [Email], [Pin], [FirstName], [LastName], [DateBirthday], [Avatar], [Cover], [About], [DateAccountCreated], [RoleT]) VALUES (1, N'guest', N'guest1234', N'guest@localhost.loc', N'1234', N'Guest', N'Convidado', N'1994-01-01', N'guest.jpg', N'c_guest.jpg', N'Guest is cool guy!', N'2022-06-30 16:37:00', 1);
+INSERT [dbo].[Users] ([UserId], [Username], [PasswordT], [Email], [Pin], [FirstName], [LastName], [DateBirthday], [Avatar], [Cover], [About], [DateAccountCreated], [RoleT]) VALUES (2, N'admin', N'admin1234', N'admin@localhost.loc', N'1234', N'Admin', N'Admin', N'1996-06-04', N'theflash.jpg', N'theflash.jpg', N'Admin is cool guy!', N'2022-07-08 15:26:00', 3);
 SET IDENTITY_INSERT [dbo].[Users] OFF
 
 GO
 
 SET IDENTITY_INSERT [dbo].[UserAuth] ON 
-INSERT [dbo].[UserAuth] ([UserAuthID], [Username], [PasswordT], [UserID], [Avatar], [TokenInfo]) VALUES (1, N'guest', N'guest1234', 1, N'guest.jpg', N'');
-INSERT [dbo].[UserAuth] ([UserAuthID], [Username], [PasswordT], [UserID], [Avatar], [TokenInfo]) VALUES (2, N'admin', N'admin1234', 2, N'theflash.jpg', N'');
+INSERT [dbo].[UserAuth] ([UserAuthId], [Username], [PasswordT], [RoleT], [UserId], [Avatar], [TokenInfo]) VALUES (1, N'guest', N'guest1234', 0, 1, N'guest.jpg', N'');
+INSERT [dbo].[UserAuth] ([UserAuthId], [Username], [PasswordT], [RoleT], [UserId], [Avatar], [TokenInfo]) VALUES (2, N'admin', N'admin1234', 3, 2, N'theflash.jpg', N'');
 SET IDENTITY_INSERT [dbo].[UserAuth] OFF
+
+GO
+
+SET IDENTITY_INSERT [dbo].[UserToken] ON
+INSERT [dbo].[UserToken] ([TokenId], [Authenticated], [Created], [Expiration], [AccessToken], [Message], [UserId]) VALUES(1, 1, '2022-07-11', '2022-08-11', 'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ', 'OK', 1);
+SET IDENTITY_INSERT [dbo].[UserToken] OFF
 
 GO

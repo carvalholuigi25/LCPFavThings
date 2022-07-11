@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS Users (
    Cover varchar(255) null,
    About text null,
    DateAccountCreated datetime null,
-   RoleT varchar(255) null,
+   RoleT int null,
    PRIMARY KEY(UserId)
 ) ENGINE=InnoDB;
 
@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS UserAuth (
    UserAuthId int not null auto_increment,
    Username varchar(255) not null,
    PasswordT varchar(255) not null,
+   RoleT int null,
    UserId int null,
    Avatar varchar(255) null,
    TokenInfo text null,
@@ -99,13 +100,16 @@ VALUES ('Fear of The Walking Dead','Fear of The Walking Dead (2015)','Action,Adv
 	   ('The Flash','The Flash (2014)','Action,Adventure','TV Series','theflash.jpg','CW','English',8,45,9.5);
        
 INSERT Users (Username,PasswordT,Email,Pin,FirstName,LastName,DateBirthday,Avatar,Cover,About,DateAccountCreated,RoleT) 
-VALUES ('guest','guest1234','guest@localhost.loc',1234,'Guest','Convidado','1994-01-01','guest.jpg','c_guest.jpg','Guest is cool guy!','2022-06-30 16:37:00',1);
+VALUES ('guest','guest1234','guest@localhost.loc',1234,'Guest','Convidado','1994-01-01','guest.jpg','c_guest.jpg','Guest is cool guy!','2022-06-30 16:37:00',0);
 
 INSERT Users (Username,PasswordT,Email,Pin,FirstName,LastName,DateBirthday,Avatar,Cover,About,DateAccountCreated,RoleT) 
 VALUES ('admin','admin1234','admin@localhost.loc',1234,'Admin','Admin','1996-06-04','theflash.jpg','theflash.jpg','Admin is cool guy!','2022-07-08 15:26:00',3);
 
-INSERT UserAuth (Username,PasswordT,UserId,Avatar,TokenInfo) 
-VALUES ('guest','guest1234',1,'guest.jpg','');
+INSERT UserAuth (Username,PasswordT,RoleT,UserId,Avatar,TokenInfo) 
+VALUES ('guest','guest1234',0,1,'guest.jpg','');
 
-INSERT UserAuth (Username,PasswordT,UserId,Avatar,TokenInfo) 
-VALUES ('admin','admin1234',2,'theflash.jpg','');
+INSERT UserAuth (Username,PasswordT,RoleT,UserId,Avatar,TokenInfo) 
+VALUES ('admin','admin1234',3,2,'theflash.jpg','');
+
+INSERT UserToken (TokenId,Authenticated,Created,Expiration,AccessToken,Message,UserId) 
+VALUES (1,1,'2022-07-11','2022-08-11','eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ','OK',1);

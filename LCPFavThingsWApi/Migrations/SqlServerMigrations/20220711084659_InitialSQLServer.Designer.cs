@@ -3,30 +3,35 @@ using System;
 using LCPFavThingsWApi.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LCPFavThingsWApi.Migrations.MySqlMigrations
+namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
 {
-    [DbContext(typeof(DBMySQLContext))]
-    [Migration("20220710203715_InitialMySQL")]
-    partial class InitialMySQL
+    [DbContext(typeof(DBContext))]
+    [Migration("20220711084659_InitialSQLServer")]
+    partial class InitialSQLServer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.6")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("LCPFavThingsWApi.Models.Games", b =>
                 {
                     b.Property<int?>("GameId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("GameID");
+                        .HasColumnName("GameId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("GameId"), 1L, 1);
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -96,7 +101,9 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     b.Property<int?>("MovieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("MovieID");
+                        .HasColumnName("MovieId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("MovieId"), 1L, 1);
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -158,7 +165,9 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     b.Property<int?>("TVSerieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("TVSerieID");
+                        .HasColumnName("TVSerieId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("TVSerieId"), 1L, 1);
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -226,6 +235,8 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                         .HasColumnType("int")
                         .HasColumnName("UserAuthId");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("UserAuthId"), 1L, 1);
+
                     b.Property<string>("Avatar")
                         .HasMaxLength(255)
                         .IsUnicode(false)
@@ -236,9 +247,14 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int?>("RoleT")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("int");
+
                     b.Property<int?>("UserId")
                         .HasColumnType("int")
-                        .HasColumnName("UserID");
+                        .HasColumnName("UserId");
 
                     b.Property<string>("Username")
                         .HasMaxLength(255)
@@ -255,7 +271,9 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     b.Property<int?>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("UserID");
+                        .HasColumnName("UserId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("UserId"), 1L, 1);
 
                     b.Property<string>("About")
                         .HasMaxLength(255)
@@ -321,23 +339,27 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
             modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.UserToken", b =>
                 {
                     b.Property<string>("AccessToken")
+                        .HasMaxLength(255)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<bool>("Authenticated")
-                        .HasColumnType("bool(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Created")
+                        .HasMaxLength(255)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Expiration")
+                        .HasMaxLength(255)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Message")
+                        .HasMaxLength(255)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int?>("TokenId")
                         .HasColumnType("int")

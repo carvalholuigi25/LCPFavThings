@@ -42,6 +42,9 @@ namespace LCPFavThings.Models
         public string? Password { get; set; }
 
         [SwaggerIgnore]
+        public UsersRoles? RoleT { get; set; } = UsersRoles.user;
+
+        [SwaggerIgnore]
         public int? UserId { get; set; } = 1;
 
         [SwaggerIgnore]

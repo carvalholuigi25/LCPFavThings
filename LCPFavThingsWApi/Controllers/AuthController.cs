@@ -32,6 +32,11 @@ public class AuthController : ControllerBase
         return await _context.User.Where(x => x.Username == myu).Select(x => x.Avatar).FirstOrDefaultAsync();
     }
 
+    private async Task<UsersRoles?> GetRoleFromUser(string? myu)
+    {
+        return await _context.User.Where(x => x.Username == myu).Select(x => x.RoleT).FirstOrDefaultAsync();
+    }
+
     [AllowAnonymous]
     [HttpPost]
     [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
@@ -52,6 +57,7 @@ public class AuthController : ControllerBase
                 Username = utilizador.Username,
                 UserId = await GetIdFromUser(utilizador.Username),
                 Avatar = await GetAvatarFromUser(utilizador.Username),
+                RoleT = await GetRoleFromUser(utilizador.Username),
                 TokenInfo = accessManager.GenerateToken(utilizador)
             };
         }

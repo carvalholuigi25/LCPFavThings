@@ -69,6 +69,13 @@ ScaffoldingReadMe.txt
 # StyleCop
 StyleCopReport.xml
 
+#Migrations 
+#Migrations/
+#LCPFavThingsWApi/Migrations/
+#LCPFavThingsWApi/Migrations/MySqlMigrations/
+#LCPFavThingsWApi/Migrations/SqlLiteMigrations/
+#LCPFavThingsWApi/Migrations/SqlServerMigrations/
+
 # Files built by Visual Studio
 *_i.c
 *_p.c

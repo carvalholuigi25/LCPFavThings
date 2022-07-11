@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
 {
     [DbContext(typeof(DBLiteContext))]
-    [Migration("20220710203739_InitialSQLite")]
+    [Migration("20220711084636_InitialSQLite")]
     partial class InitialSQLite
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                     b.Property<int?>("GameId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
-                        .HasColumnName("GameID");
+                        .HasColumnName("GameId");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -94,7 +94,7 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                     b.Property<int?>("MovieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
-                        .HasColumnName("MovieID");
+                        .HasColumnName("MovieId");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -156,7 +156,7 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                     b.Property<int?>("TVSerieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
-                        .HasColumnName("TVSerieID");
+                        .HasColumnName("TVSerieId");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -234,9 +234,14 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                         .IsUnicode(false)
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("RoleT")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("INTEGER");
+
                     b.Property<int?>("UserId")
                         .HasColumnType("INTEGER")
-                        .HasColumnName("UserID");
+                        .HasColumnName("UserId");
 
                     b.Property<string>("Username")
                         .HasMaxLength(255)
@@ -253,7 +258,7 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                     b.Property<int?>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
-                        .HasColumnName("UserID");
+                        .HasColumnName("UserId");
 
                     b.Property<string>("About")
                         .HasMaxLength(255)
@@ -319,23 +324,27 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
             modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.UserToken", b =>
                 {
                     b.Property<string>("AccessToken")
+                        .HasMaxLength(255)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Authenticated")
-                        .HasColumnType("bool");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Created")
+                        .HasMaxLength(255)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Expiration")
+                        .HasMaxLength(255)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Message")
+                        .HasMaxLength(255)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("TokenId")
                         .HasColumnType("INTEGER")
