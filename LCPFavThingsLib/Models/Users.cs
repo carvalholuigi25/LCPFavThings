@@ -49,8 +49,8 @@ namespace LCPFavThingsLib.Models
         [SwaggerIgnore]
         public string? Avatar { get; set; } = "guest.jpg";
 
-        [SwaggerIgnore]
-        public UserToken? TokenInfo { get; set; }
+        //[SwaggerIgnore]
+        //public UserToken? TokenInfo { get; set; }
     }
 
     public enum UsersRoles
@@ -66,12 +66,12 @@ namespace LCPFavThingsLib.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [PrimaryKey]
-        public int? TokenId { get; set; } = 1;
-        public bool Authenticated { get; set; }
+        public int? TokenId { get; set; }
+        public int? Authenticated { get; set; }
         public string? Created { get; set; }
         public string? Expiration { get; set; }
         public string? AccessToken { get; set; }
         public string? Message { get; set; }
-        public int? UserId { get; set; } = 1;
+        public int? UserId { get; set; }
     }
 }

@@ -58,7 +58,7 @@ public class AuthController : ControllerBase
                 UserId = await GetIdFromUser(utilizador.Username),
                 Avatar = await GetAvatarFromUser(utilizador.Username),
                 RoleT = await GetRoleFromUser(utilizador.Username),
-                TokenInfo = accessManager.GenerateToken(utilizador)
+                TokenInfo = accessManager.GenerateToken(utilizador, await GetIdFromUser(utilizador.Username))
             };
         }
         else

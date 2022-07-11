@@ -109,15 +109,16 @@ namespace LCPFavThingsWApi.Context
                 entity.Property(e => e.UserId).HasColumnName("UserId");
                 entity.Property(e => e.Avatar).HasMaxLength(255).IsUnicode(false);
                 entity.Property(e => e.RoleT).HasMaxLength(255).IsUnicode(false);
+                //entity.Property(e => e.TokenInfo).HasColumnName("TokenInfo");
             });
 
             modelBuilder.Entity<UserToken>(entity =>
             {
                 entity.ToTable("UserToken");
-                entity.HasNoKey();
+                //entity.HasNoKey();
 
                 entity.Property(e => e.TokenId).HasColumnName("TokenId");
-                entity.Property(e => e.Authenticated).HasColumnType("bit");
+                entity.Property(e => e.Authenticated).HasColumnName("Authenticated");
                 entity.Property(e => e.Created).HasMaxLength(255).IsUnicode(false);
                 entity.Property(e => e.Expiration).HasMaxLength(255).IsUnicode(false);
                 entity.Property(e => e.AccessToken).HasMaxLength(255).IsUnicode(false);

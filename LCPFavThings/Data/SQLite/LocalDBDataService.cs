@@ -32,10 +32,8 @@ namespace LCPFavThings.Data.SQLite
         public async Task<List<T>> CreateAndGet<T>(T item) where T : new()
         {
             await conn.InsertAsync(item);
-            var mydur = await conn.Table<T>().ToArrayAsync();
-            var lst = new List<T>();
-            lst.Add(mydur[0]);
-            return lst.Count > 0 ? lst : default;
+            var myres = await conn.Table<T>().ToListAsync();
+            return myres.Count > 0 ? myres : default;
         }
 
         public async Task<List<T>> Read<T>() where T : new()
