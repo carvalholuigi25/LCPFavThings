@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using LCPFavThings.Helpers;
+using Microsoft.JSInterop;
 using System.Globalization;
 
 namespace LCPFavThings
@@ -69,6 +70,11 @@ namespace LCPFavThings
 
 			return !string.IsNullOrEmpty(dbmode) ? dbmode : "sqlite";
 		}
+
+		public static async Task<T> GetAuthLogin<T>(ILSHelper LSH) where T : class
+		{
+			return !string.IsNullOrEmpty(await LSH.GetByCl<string>("authinfo")) ? Newtonsoft.Json.JsonConvert.DeserializeObject<T>(await LSH.GetByCl<string>("authinfo")) : null;
+        }
 
 		public static DateTime ConvertToDT(string val)
 		{

@@ -110,7 +110,7 @@
 	protected override async Task OnInitializedAsync()
 	{
 		await MyExtensions.LoadMyCultureInfo(JS);
-		authinfo = !string.IsNullOrEmpty(await ls.GetByCl<string>("authinfo")) ? Newtonsoft.Json.JsonConvert.DeserializeObject<lib.Models.Users>(await ls.GetByCl<string>("authinfo")) : null;
+		authinfo = await MyExtensions.GetAuthLogin<lib.Models.Users>(ls);
 		isLoggedIn = authinfo != null ? true : false;
 		StateHasChanged();
 	}
