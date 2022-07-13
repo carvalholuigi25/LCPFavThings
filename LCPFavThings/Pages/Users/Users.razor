@@ -90,9 +90,9 @@ else
 						.WithUrl(NavigationManager.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/broadcastHub"))
 						.Build();
 
-			hubConnection.On("ReceiveMessage", () =>
+			hubConnection.On("ReceiveMessage", async () =>
 			{
-				CallLoadData(valdbm);
+				await LoadData(valdbm);
 				StateHasChanged();
 			});
 
@@ -104,14 +104,6 @@ else
 		{
 			await LoadData(valdbm);
 		}
-	}
-
-	private void CallLoadData(string vdbm = "server_realtime")
-	{
-		Task.Run(async () =>
-		{
-			await LoadData(vdbm);
-		});
 	}
 
 	protected async Task LoadData(string vdbm = "server")
