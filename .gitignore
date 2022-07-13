@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+LCPFavThingsWApi/Data/SQLite/lcpfavthingsdb.db-shm
+LCPFavThingsWApi/Data/SQLite/lcpfavthingsdb.db-wal
