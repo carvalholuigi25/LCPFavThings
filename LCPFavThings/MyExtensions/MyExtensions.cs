@@ -18,7 +18,17 @@ namespace LCPFavThings
 
 		public static dynamic GetMyConnStringFromLib()
 		{
-            var myfileconn = File.ReadAllText(@"C:\Users\Luis\Documents\Visual Studio 2022\Projects\LCPFTMain\LCPFavThingsLib\Config\myconnstrings.json");
+			var myfileconn = @"{
+			  'connStrings': {
+				'SQLServerDB': 'Server=(localdb)\\mssqllocaldb;Database=LCPFavThingsDB;Trusted_Connection=True;MultipleActiveResultSets=true',
+				'SQLiteDB': 'C:\\Users\\Luis\\Documents\\Visual Studio 2022\\Projects\\LCPFTMain\\LCPFavThingsWApi\\Data\\SQLite\\lcpfavthingsdb.db',
+				'SQLiteDBAndroid': '//sdcard//Android//data//com.lcp.lcpfavthings//files//lcpfavthingsdb.db',
+				'SQLiteDBAndroidEmu': '//data//data//com.lcp.lcpfavthings//files//lcpfavthingsdb.db',
+				'MySQLDB': 'server=localhost;port=3306;database=lcpfavthingsdbmysql;user=root;password=1234'
+			  }
+			}";
+
+            //var myfileconn = File.ReadAllText(@"C:\Users\Luis\Documents\Visual Studio 2022\Projects\LCPFTMain\LCPFavThingsLib\Config\myconnstrings.json");
             if (string.IsNullOrEmpty(myfileconn)) return null;
             var contconn = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(myfileconn);
             if (contconn == null || contconn.Count == 0) return null;
@@ -34,11 +44,12 @@ namespace LCPFavThings
 			{
 				if (DeviceInfo.Platform == DevicePlatform.Android)
 				{
-					var pyshicalpth = "/sdcard/Android/data/com.lcp.lcpfavthings/files";
-					var virtualpth = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-					var sppath = DeviceInfo.DeviceType == DeviceType.Physical ? pyshicalpth : virtualpth;
+                    //var pyshicalpth = "/sdcard/Android/data/com.lcp.lcpfavthings/files";
+                    //var virtualpth = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                    //var sppath = DeviceInfo.DeviceType == DeviceType.Physical ? pyshicalpth : virtualpth;
+                    //pthfile = Path.Combine(sppath, "lcpfavthingsdb.db");
 
-					pthfile = Path.Combine(sppath, "lcpfavthingsdb.db");
+                    pthfile = DeviceInfo.DeviceType == DeviceType.Physical ? contconn.connStrings.SQLiteDBAndroid.ToString() : contconn.connStrings.SQLiteDBAndroidEmu.ToString();
 				}
 				else
 				{
