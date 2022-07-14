@@ -13,9 +13,10 @@ namespace LCPFavThings.Helpers
             var httph = isSSL ? "https" : "http";
             var localAddress = $@"{httph}://localhost:{port}";
             var virtualAddress = $@"{httph}://10.0.2.2:{port}";
+            var srvRealAddress = $@"{httph}://192.168.1.67:{port}";
             //var virtualAddress = DeviceInfo.DeviceType == DeviceType.Physical ? $@"{httph}://192.168.1.67:{port}" : $@"{httph}://10.0.2.2:{port}";
 
-            return DeviceInfo.Platform == DevicePlatform.Android ? virtualAddress : localAddress;
+            return DeviceInfo.Platform == DevicePlatform.Android ? (DeviceInfo.DeviceType == DeviceType.Physical ? srvRealAddress : virtualAddress) : localAddress;
         }
 
         public static HttpClientHandler GetInsecureHandler(int mode = 0)
