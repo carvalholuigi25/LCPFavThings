@@ -86,9 +86,9 @@ namespace LCPFavThingsWApi.Context
 
                 entity.Property(e => e.UserId).HasColumnName("UserId");
                 entity.Property(e => e.Username).HasMaxLength(255).IsUnicode(false);
-                entity.Property(e => e.PasswordT).HasMaxLength(255).IsUnicode(false);
+                entity.Property(e => e.PasswordT).HasMaxLength(1024).IsUnicode(false);
                 entity.Property(e => e.Email).HasMaxLength(255).IsUnicode(false);
-                entity.Property(e => e.Pin).HasColumnType("int");
+                entity.Property(e => e.Pin).HasColumnName("Pin");
                 entity.Property(e => e.FirstName).HasMaxLength(255).IsUnicode(false);
                 entity.Property(e => e.LastName).HasMaxLength(255).IsUnicode(false);
                 entity.Property(e => e.DateBirthday).HasColumnType("datetime");
@@ -105,7 +105,7 @@ namespace LCPFavThingsWApi.Context
 
                 entity.Property(e => e.UserAuthId).HasColumnName("UserAuthId");
                 entity.Property(e => e.Username).HasMaxLength(255).IsUnicode(false);
-                entity.Property(e => e.Password).HasMaxLength(255).IsUnicode(false);
+                entity.Property(e => e.Password).HasMaxLength(1024).IsUnicode(false);
                 entity.Property(e => e.UserId).HasColumnName("UserId");
                 entity.Property(e => e.Avatar).HasMaxLength(255).IsUnicode(false);
                 entity.Property(e => e.RoleT).HasMaxLength(255).IsUnicode(false);
@@ -128,6 +128,7 @@ namespace LCPFavThingsWApi.Context
 
             modelBuilder.Entity<Users>().Ignore(t => t.TokenInfo);
             modelBuilder.Entity<UserAuth>().Ignore(t => t.TokenInfo);
+            modelBuilder.Seed();
 
             OnModelCreatingPartial(modelBuilder);
         }

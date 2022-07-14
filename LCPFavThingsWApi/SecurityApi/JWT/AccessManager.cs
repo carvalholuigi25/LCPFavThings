@@ -3,8 +3,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
+using LCPFavThingsWApi.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using bc = BCrypt.Net.BCrypt;
 
 namespace LCPFavThingsWApi.SecurityApi.JWT;
 
@@ -14,35 +16,39 @@ public class AccessManager
     private SignInManager<ApplicationUser> _signInManager;
     private SigningConfigurations _signingConfigurations;
     private TokenConfigurations _tokenConfigurations;
+    private DBContext _context;
 
     public AccessManager(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         SigningConfigurations signingConfigurations,
-        TokenConfigurations tokenConfigurations)
+        TokenConfigurations tokenConfigurations,
+        DBContext context)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _signingConfigurations = signingConfigurations;
         _tokenConfigurations = tokenConfigurations;
+        _context = context;
     }
 
     public bool ValidateCredentials(User user)
     {
         bool credenciaisValidas = false;
+        
         if (user is not null && !String.IsNullOrWhiteSpace(user.Username))
         {
-            var userIdentity = _userManager
-                .FindByNameAsync(user.Username).Result;
+            var userIdentity = _userManager.FindByNameAsync(user.Username).Result;
+            
             if (userIdentity is not null)
             {
-                var resultadoLogin = _signInManager
-                    .CheckPasswordSignInAsync(userIdentity, user.Password, false)
-                    .Result;
-                if (resultadoLogin.Succeeded)
+                var userinfo = _context.User.SingleOrDefault(x => x.Username == user.Username);
+                bool verified = bc.Verify(user.Password, userinfo?.PasswordT);
+                var resultadoLogin = _signInManager.CheckPasswordSignInAsync(userIdentity, userinfo?.PasswordT, false).Result;
+                
+                if (resultadoLogin.Succeeded || verified)
                 {
-                    credenciaisValidas = _userManager.IsInRoleAsync(
-                        userIdentity, Roles.ROLE_ACESSO_APIS).Result;
+                    credenciaisValidas = _userManager.IsInRoleAsync(userIdentity, Roles.ROLE_ACESSO_APIS).Result;
                 }
             }
         }

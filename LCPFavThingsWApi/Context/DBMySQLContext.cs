@@ -13,5 +13,10 @@ namespace LCPFavThingsWApi.Context
                 optionsBuilder.UseMySql(Configuration.GetSection("ConnectionStrings")["LCPFavThingsDBMySQL"].ToString(), new MySqlServerVersion(new Version(8, 0, 27)));
             }
         }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Seed();
+        //}
     }
 }

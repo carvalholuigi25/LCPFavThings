@@ -18,7 +18,7 @@ namespace LCPFavThingsLib.Models
         [Required]
         public string? PasswordT { get; set; }
         public string? Email { get; set; }
-        public int? Pin { get; set; }
+        public string? Pin { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public DateTime? DateBirthday { get; set; }

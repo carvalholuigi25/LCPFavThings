@@ -13,5 +13,10 @@ namespace LCPFavThingsWApi.Context
                 optionsBuilder.UseSqlite(Configuration.GetSection("ConnectionStrings")["LCPFavThingsDBLite"]);
             }
         }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Seed();
+        //}
     }
 }

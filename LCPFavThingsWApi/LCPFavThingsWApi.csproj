@@ -8,19 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Data\db.json" />
-    <Content Remove="Data\dbwoid.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Assets\Images\ff8.jpg" />
     <None Remove="Assets\Images\ftwd.jpg" />
     <None Remove="Assets\Images\gtaiv.jpg" />
     <None Remove="Assets\Images\theflash.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Data\db.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,11 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Data\dbwoid.json" />
-    <None Include="Data\db.json" />
-  </ItemGroup>
-
-  <ItemGroup>
+	  <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />

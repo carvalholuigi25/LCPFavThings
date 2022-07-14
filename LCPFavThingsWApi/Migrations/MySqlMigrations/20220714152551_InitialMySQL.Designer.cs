@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LCPFavThingsWApi.Migrations.MySqlMigrations
 {
     [DbContext(typeof(DBMySQLContext))]
-    [Migration("20220711084612_InitialMySQL")]
+    [Migration("20220714152551_InitialMySQL")]
     partial class InitialMySQL
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,6 +89,22 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     b.HasKey("GameId");
 
                     b.ToTable("Games", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            GameId = 1,
+                            Category = "Games",
+                            Company = "Rockstar North",
+                            Cover = "gtaiv.jpg",
+                            DateRelease = "2008-04-28T00:00:00",
+                            DescT = "GTA IV",
+                            Genre = "Action,Adventure",
+                            LangT = "English",
+                            Publisher = "Rockstar Games",
+                            Rating = 8m,
+                            Title = "GTA IV"
+                        });
                 });
 
             modelBuilder.Entity("LCPFavThingsWApi.Models.Movies", b =>
@@ -151,6 +167,21 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     b.HasKey("MovieId");
 
                     b.ToTable("Movies", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            MovieId = 1,
+                            Category = "Movies",
+                            Company = "Paramount",
+                            Cover = "ff8.jpg",
+                            DescT = "The Fast and Furious 8",
+                            Duration = 150,
+                            Genre = "Action",
+                            LangT = "English",
+                            Rating = 9m,
+                            Title = "The Fast and Furious 8"
+                        });
                 });
 
             modelBuilder.Entity("LCPFavThingsWApi.Models.TVSeries", b =>
@@ -217,6 +248,36 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     b.HasKey("TVSerieId");
 
                     b.ToTable("TVSeries", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            TVSerieId = 1,
+                            Category = "TV Series",
+                            Company = "AMC,FOX",
+                            Cover = "ftwd.jpg",
+                            DescT = "FTWD",
+                            Duration = 45,
+                            Genre = "Action,Adventure",
+                            LangT = "English",
+                            Rating = 9m,
+                            Title = "Fear The Walking Dead",
+                            TotalSeasons = 8
+                        },
+                        new
+                        {
+                            TVSerieId = 2,
+                            Category = "TV Series",
+                            Company = "CW,RTP1,AXN",
+                            Cover = "theflash.jpg",
+                            DescT = "The Flash",
+                            Duration = 45,
+                            Genre = "Action,Adventure",
+                            LangT = "English",
+                            Rating = 8m,
+                            Title = "The Flash",
+                            TotalSeasons = 8
+                        });
                 });
 
             modelBuilder.Entity("LCPFavThingsWApi.Models.UserAuth", b =>
@@ -232,9 +293,9 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Password")
-                        .HasMaxLength(255)
+                        .HasMaxLength(1024)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<int?>("RoleT")
                         .HasMaxLength(255)
@@ -253,6 +314,26 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     b.HasKey("UserAuthId");
 
                     b.ToTable("UserAuth", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserAuthId = 1,
+                            Avatar = "guest.jpg",
+                            Password = "$2a$11$T49GaYg/YJlHHKshEbEA9.R/SOqF6NBsQyQ2FWGVKPAabtzP.TXMW",
+                            RoleT = 1,
+                            UserId = 1,
+                            Username = "guest"
+                        },
+                        new
+                        {
+                            UserAuthId = 2,
+                            Avatar = "theflash.jpg",
+                            Password = "$2a$11$6nJkocNio1M7YGHEAANfpu0eUOA.5fdA0jA6cMxNB4NelCOD02sWy",
+                            RoleT = 3,
+                            UserId = 2,
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("LCPFavThingsWApi.Models.Users", b =>
@@ -300,12 +381,13 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
 
                     b.Property<string>("PasswordT")
                         .IsRequired()
-                        .HasMaxLength(255)
+                        .HasMaxLength(1024)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(1024)");
 
-                    b.Property<int?>("Pin")
-                        .HasColumnType("int");
+                    b.Property<string>("Pin")
+                        .HasColumnType("longtext")
+                        .HasColumnName("Pin");
 
                     b.Property<int?>("RoleT")
                         .HasMaxLength(255)
@@ -321,17 +403,57 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            About = "Guest is cool guy!",
+                            Avatar = "guest.jpg",
+                            Cover = "c_guest.jpg",
+                            DateAccountCreated = new DateTime(2022, 7, 14, 15, 25, 50, 116, DateTimeKind.Utc).AddTicks(354),
+                            DateBirthday = new DateTime(1995, 5, 2, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "guest@localhost.loc",
+                            FirstName = "Guest",
+                            LastName = "Convidado",
+                            PasswordT = "$2a$11$cjTs9fbAxbgEeOAtAYUj3O8iZrvLpUeJpzbvWg0r2KzrvJZZT8XQu",
+                            Pin = "$2a$11$RTRsFc8iyqmV/AT4QkDgMO6ifrxIDbbv2MxZc18k2A1TkojL5aC.a",
+                            RoleT = 1,
+                            Username = "guest"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            About = "Admin is cool guy!",
+                            Avatar = "theflash.jpg",
+                            Cover = "theflash.jpg",
+                            DateAccountCreated = new DateTime(2022, 7, 14, 15, 25, 50, 507, DateTimeKind.Utc).AddTicks(5100),
+                            DateBirthday = new DateTime(1995, 6, 3, 23, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "admin@localhost.loc",
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            PasswordT = "$2a$11$/0QBiIXvhrR9XnoyUSXrDuFqCynEzjwIESAq/v2irQH809jLurA4m",
+                            Pin = "$2a$11$fGOhXpiY0lj4ccYJl.3hxud2dMn0JeWK8jPqX3GCVhDA.cNdBn3Rq",
+                            RoleT = 3,
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.UserToken", b =>
                 {
+                    b.Property<int?>("TokenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("TokenId");
+
                     b.Property<string>("AccessToken")
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<ulong>("Authenticated")
-                        .HasColumnType("bit");
+                    b.Property<int?>("Authenticated")
+                        .HasColumnType("int")
+                        .HasColumnName("Authenticated");
 
                     b.Property<string>("Created")
                         .HasMaxLength(255)
@@ -348,15 +470,25 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("TokenId")
-                        .HasColumnType("int")
-                        .HasColumnName("TokenId");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("int")
                         .HasColumnName("UserId");
 
+                    b.HasKey("TokenId");
+
                     b.ToTable("UserToken", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            TokenId = 1,
+                            AccessToken = "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ",
+                            Authenticated = 1,
+                            Created = "2022-07-14T16:21:00",
+                            Expiration = "2022-07-14T17:21:00",
+                            Message = "OK",
+                            UserId = 1
+                        });
                 });
 #pragma warning restore 612, 618
         }

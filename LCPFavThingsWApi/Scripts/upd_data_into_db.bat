@@ -41,10 +41,6 @@ if not exist "%projpth%\\Migrations" (
 	mkdir "%projpth%\\Migrations"
 )
 
-REM if not exist "%projpth%\\Migrations\\APISecMigrations" (
-	REM mkdir "%projpth%\\Migrations\\APISecMigrations"
-REM )
-
 if not exist "%projpth%\\Migrations\\SqliteMigrations" (
 	mkdir "%projpth%\\Migrations\\SqliteMigrations"
 )
@@ -56,11 +52,6 @@ if not exist "%projpth%\\Migrations\\SqlServerMigrations" (
 if not exist "%projpth%\\Migrations\\MySqlMigrations" (
 	mkdir "%projpth%\\Migrations\\MySqlMigrations"
 )
-
-REM dotnet ef database drop --force --context ApiSecurityDBCtx --project="%projpth%"
-REM dotnet ef migrations remove --force --context ApiSecurityDBCtx --project="%projpth%"
-REM dotnet ef migrations add InitialAPISec --context ApiSecurityDBCtx --output-dir Migrations/APISecMigrations --project="%projpth%"
-REM dotnet ef database update --context ApiSecurityDBCtx --project="%projpth%"
 
 set SGBDServiceMode=mysql
 dotnet ef database drop --force --context DBMySQLContext --project="%projpth%"
@@ -81,37 +72,6 @@ dotnet ef database drop --force --context DBContext --project="%projpth%"
 dotnet ef migrations remove --force --context DBContext --project="%projpth%"
 dotnet ef migrations add InitialSQLServer --context DBContext --output-dir Migrations/SqlServerMigrations --project="%projpth%"
 dotnet ef database update --context DBContext --project="%projpth%"
-
-if exist "%projpth%\Data\qry_mysql_gen_data_lcpftdb.sql" (
-	"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p1234 lcpfavthingsdbmysql < "%projpth%\Data\qry_mysql_gen_data_lcpftdb.sql"
-)
-
-if exist "%projpth%\Data\qry_sqlite_gen_data_lcpftdb.sql" (
-	REM cat "%projpth%\Data\qry_sqlite_gen_data_lcpftdb.sql" | sqlite3 "%projpth%\Data\SQLite\lcpfavthingsdb.db"
-	"C:\sqlite\sqlite3.exe" "%projpth%\Data\SQLite\lcpfavthingsdb.db" ".read %projpth%\Data\qry_sqlite_gen_data_lcpftdb.sql"
-)
-
-if exist "%projpth%\Data\qry_lcpftdb_gen_data.sql" (
-	"C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE" -S "(localdb)\MSSQLLocalDB" -d "LCPFavThingsDB" -i "%projpth%\Data\qry_lcpftdb_gen_data.sql" -a 32767
-)
-
-REM if "%errorlevel%" EQU "0" (
-	REM if exist "C:\\Users\\Luis\\LCPFavThingsDB.mdf" (
-		REM COPY "C:\\Users\\Luis\\LCPFavThingsDB.mdf" "%pthproj%\\Data\\SQL\\LCPFavThingsDB.mdf"
-	REM )
-
-	REM if exist "C:\\Users\\Luis\\LCPFavThingsDB.ldf" (
-		REM COPY "C:\\Users\\Luis\\LCPFavThingsDB.ldf" "%pthproj%\\Data\\SQL\\LCPFavThingsDB.ldf"
-	REM )
-
-	REM if exist "C:\\programdata\\MySQL\\MySQL Server 8.0\\Data\\lcpfavthingsdbmysql" (
-		REM if not exist "%pthproj%\\Data\\MySQL\\lcpfavthingsdbmysql" (
-			REM mkdir "%pthproj%\\Data\\MySQL\\lcpfavthingsdbmysql"
-		REM )
-
-		REM COPY "C:\\programdata\\MySQL\\MySQL Server 8.0\\Data\\lcpfavthingsdbmysql\\*.*" "%pthproj%\\Data\\MySQL\\lcpfavthingsdbmysql\\"
-	REM )
-REM )
 
 pause
 exit /b %errorlevel%

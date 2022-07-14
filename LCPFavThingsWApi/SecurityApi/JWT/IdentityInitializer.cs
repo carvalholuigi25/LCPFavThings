@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Identity;
 using LCPFavThingsWApi.Context;
+using bc = BCrypt.Net.BCrypt;
 
 namespace LCPFavThingsWApi.SecurityApi.JWT;
 
