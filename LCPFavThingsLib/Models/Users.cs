@@ -44,13 +44,14 @@ namespace LCPFavThingsLib.Models
         public UsersRoles? RoleT { get; set; } = UsersRoles.user;
 
         [SwaggerIgnore]
+        public string? Avatar { get; set; } = "guest.jpg";
+
+        [SwaggerIgnore]
         public int? UserId { get; set; } = 1;
 
         [SwaggerIgnore]
-        public string? Avatar { get; set; } = "guest.jpg";
-
-        //[SwaggerIgnore]
-        //public UserToken? TokenInfo { get; set; }
+        //[NotMapped]
+        public UserToken? TokenInfo { get; set; }
     }
 
     public enum UsersRoles
@@ -72,6 +73,7 @@ namespace LCPFavThingsLib.Models
         public string? Expiration { get; set; }
         public string? AccessToken { get; set; }
         public string? Message { get; set; }
-        public int? UserId { get; set; }
+        public int? UserId { get; set; } = 1;
+        public int? UserAuthId { get; set; } = 1;
     }
 }

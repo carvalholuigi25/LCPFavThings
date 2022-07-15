@@ -1,5 +1,6 @@
 ﻿//source: https://raw.githubusercontent.com/renatogroffe/ASPNETCore6-REST_API-JWT-Swagger_ContagemAcessos/main/APIs.Security.JWT/Classes.cs
 
+using LCPFavThingsWApi.Filters;
 using LCPFavThingsWApi.Models;
 using SQLite;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +23,7 @@ public class TokenConfigurations
     public string? SecretJwtKey { get; set; }
 }
 
-public class UserToken
+public class UserToken 
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
@@ -34,4 +35,11 @@ public class UserToken
     public string? AccessToken { get; set; }
     public string? Message { get; set; }
     public int? UserId { get; set; } = 1;
+    public int? UserAuthId { get; set; } = 1;
+
+    [SwaggerIgnore]
+    public Users? Users { get; set; }
+
+    [SwaggerIgnore]
+    public UserAuth? UsersAuth { get; set; }
 }

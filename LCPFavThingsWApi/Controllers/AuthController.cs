@@ -7,6 +7,7 @@ using LCPFavThingsWApi.SecurityApi.JWT;
 using LCPFavThingsWApi.Context;
 using Microsoft.EntityFrameworkCore;
 using LCPFavThingsWApi.Models;
+using Newtonsoft.Json;
 
 namespace LCPFavThingsWApi.Controllers;
 
@@ -55,6 +56,7 @@ public class AuthController : ControllerBase
             {
                 UserAuthId = 1,
                 Username = utilizador.Username,
+                Password = null,
                 UserId = await GetIdFromUser(utilizador.Username),
                 Avatar = await GetAvatarFromUser(utilizador.Username),
                 RoleT = await GetRoleFromUser(utilizador.Username),

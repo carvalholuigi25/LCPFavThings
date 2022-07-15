@@ -45,12 +45,13 @@ namespace LCPFavThings.Models
         public UsersRoles? RoleT { get; set; } = UsersRoles.user;
 
         [SwaggerIgnore]
-        public int? UserId { get; set; } = 1;
-
-        [SwaggerIgnore]
         public string? Avatar { get; set; }
 
         [SwaggerIgnore]
+        public int? UserId { get; set; } = 1;
+
+        [SwaggerIgnore]
+        [NotMapped]
         public UserToken? TokenInfo { get; set; }
     }
 

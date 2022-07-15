@@ -115,9 +115,9 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     Password = table.Column<string>(type: "varchar(1024)", unicode: false, maxLength: 1024, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RoleT = table.Column<int>(type: "int", unicode: false, maxLength: 255, nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: true),
                     Avatar = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -166,19 +166,30 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                     TokenId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Authenticated = table.Column<int>(type: "int", nullable: true),
-                    Created = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    Created = table.Column<string>(type: "varchar(1024)", unicode: false, maxLength: 1024, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Expiration = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    Expiration = table.Column<string>(type: "varchar(1024)", unicode: false, maxLength: 1024, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AccessToken = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    AccessToken = table.Column<string>(type: "varchar(1024)", unicode: false, maxLength: 1024, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Message = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    Message = table.Column<string>(type: "varchar(1024)", unicode: false, maxLength: 1024, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    UserAuthId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserToken", x => x.TokenId);
+                    table.ForeignKey(
+                        name: "FK_UserToken_UserAuth_UserAuthId",
+                        column: x => x.UserAuthId,
+                        principalTable: "UserAuth",
+                        principalColumn: "UserAuthId");
+                    table.ForeignKey(
+                        name: "FK_UserToken_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -206,23 +217,35 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                 columns: new[] { "UserAuthId", "Avatar", "Password", "RoleT", "UserId", "Username" },
                 values: new object[,]
                 {
-                    { 1, "guest.jpg", "$2a$11$T49GaYg/YJlHHKshEbEA9.R/SOqF6NBsQyQ2FWGVKPAabtzP.TXMW", 1, 1, "guest" },
-                    { 2, "theflash.jpg", "$2a$11$6nJkocNio1M7YGHEAANfpu0eUOA.5fdA0jA6cMxNB4NelCOD02sWy", 3, 2, "admin" }
+                    { 1, "guest.jpg", "$2a$11$NQT3BB2/69mnmUxfT.4aZuMI74crBeZ2umQjNF04PFcLjhFbTGvZ2", 1, 1, "guest" },
+                    { 2, "theflash.jpg", "$2a$11$zoHFQVRiB19vhoOLGhjr0uYIlDWMqQ6KC6ubZGedKvlE7HWWgwGFu", 3, 2, "admin" }
                 });
-
-            migrationBuilder.InsertData(
-                table: "UserToken",
-                columns: new[] { "TokenId", "AccessToken", "Authenticated", "Created", "Expiration", "Message", "UserId" },
-                values: new object[] { 1, "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ", 1, "2022-07-14T16:21:00", "2022-07-14T17:21:00", "OK", 1 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "About", "Avatar", "Cover", "DateAccountCreated", "DateBirthday", "Email", "FirstName", "LastName", "PasswordT", "Pin", "RoleT", "Username" },
                 values: new object[,]
                 {
-                    { 1, "Guest is cool guy!", "guest.jpg", "c_guest.jpg", new DateTime(2022, 7, 14, 15, 25, 50, 116, DateTimeKind.Utc).AddTicks(354), new DateTime(1995, 5, 2, 23, 0, 0, 0, DateTimeKind.Utc), "guest@localhost.loc", "Guest", "Convidado", "$2a$11$cjTs9fbAxbgEeOAtAYUj3O8iZrvLpUeJpzbvWg0r2KzrvJZZT8XQu", "$2a$11$RTRsFc8iyqmV/AT4QkDgMO6ifrxIDbbv2MxZc18k2A1TkojL5aC.a", 1, "guest" },
-                    { 2, "Admin is cool guy!", "theflash.jpg", "theflash.jpg", new DateTime(2022, 7, 14, 15, 25, 50, 507, DateTimeKind.Utc).AddTicks(5100), new DateTime(1995, 6, 3, 23, 0, 0, 0, DateTimeKind.Utc), "admin@localhost.loc", "Admin", "Admin", "$2a$11$/0QBiIXvhrR9XnoyUSXrDuFqCynEzjwIESAq/v2irQH809jLurA4m", "$2a$11$fGOhXpiY0lj4ccYJl.3hxud2dMn0JeWK8jPqX3GCVhDA.cNdBn3Rq", 3, "admin" }
+                    { 1, "Guest is cool guy!", "guest.jpg", "c_guest.jpg", new DateTime(2022, 7, 15, 14, 4, 17, 950, DateTimeKind.Utc).AddTicks(5956), new DateTime(1995, 5, 2, 23, 0, 0, 0, DateTimeKind.Utc), "guest@localhost.loc", "Guest", "Convidado", "$2a$11$khr3A1FEbGauZ5sa2X9UZ./NFa5s1LqJGzJG7zcIKWGuo8naaTu7S", "$2a$11$NCuTOZrWcHdxzc6kSbNPFuAGxZPylaWtxxVDXzfkUmkl/bfOxcjdC", 1, "guest" },
+                    { 2, "Admin is cool guy!", "theflash.jpg", "theflash.jpg", new DateTime(2022, 7, 15, 14, 4, 18, 380, DateTimeKind.Utc).AddTicks(9839), new DateTime(1995, 6, 3, 23, 0, 0, 0, DateTimeKind.Utc), "admin@localhost.loc", "Admin", "Admin", "$2a$11$yLVZYsLiPK6bOBCiJ79f2.sQBjHdBwKQ/xvjLMrL.S.cqCijLK0tG", "$2a$11$OsR/yyc03zjzMB7lfZJJfusVWXNctadRNwBCJXDqhAhy3IdmEG6LG", 3, "admin" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "UserToken",
+                columns: new[] { "TokenId", "AccessToken", "Authenticated", "Created", "Expiration", "Message", "UserAuthId", "UserId" },
+                values: new object[] { 1, "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ", 1, "2022-07-14T16:21:00", "2022-07-14T17:21:00", "OK", 1, 1 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToken_UserAuthId",
+                table: "UserToken",
+                column: "UserAuthId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToken_UserId",
+                table: "UserToken",
+                column: "UserId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -237,13 +260,13 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                 name: "TVSeries");
 
             migrationBuilder.DropTable(
+                name: "UserToken");
+
+            migrationBuilder.DropTable(
                 name: "UserAuth");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "UserToken");
         }
     }
 }

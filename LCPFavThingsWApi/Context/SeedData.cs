@@ -81,7 +81,8 @@ namespace LCPFavThingsWApi.Context
                 Cover = "c_guest.jpg",
                 About = "Guest is cool guy!",
                 DateAccountCreated = DateTime.Now.ToUniversalTime(),
-                RoleT = UsersRoles.guest
+                RoleT = UsersRoles.guest,
+                TokenInfo = null
             },
             new Users
             {
@@ -97,7 +98,8 @@ namespace LCPFavThingsWApi.Context
                 Cover = "theflash.jpg",
                 About = "Admin is cool guy!",
                 DateAccountCreated = DateTime.Now.ToUniversalTime(),
-                RoleT = UsersRoles.admin
+                RoleT = UsersRoles.admin,
+                TokenInfo = null
             });
 
             mb.Entity<UserAuth>().HasData(new UserAuth

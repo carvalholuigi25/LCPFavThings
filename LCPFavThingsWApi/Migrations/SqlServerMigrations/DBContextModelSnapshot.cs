@@ -329,7 +329,7 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                         {
                             UserAuthId = 1,
                             Avatar = "guest.jpg",
-                            Password = "$2a$11$ebRZ9Bt7vq1BzaEUkIwdVeoyvsEkfcPdlqgd3JUNsR5zDZy15qjJm",
+                            Password = "$2a$11$0aA9ySSNAmZ7Mks/qQvW9uAYf/mdZ3TWjS317G4/a1xLC6WMSA4zy",
                             RoleT = 1,
                             UserId = 1,
                             Username = "guest"
@@ -338,7 +338,7 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                         {
                             UserAuthId = 2,
                             Avatar = "theflash.jpg",
-                            Password = "$2a$11$l64F1SOO4gNRFjaXnNP1rubdOP/cYubPSjOUaw8x5bsBdat/NFfmy",
+                            Password = "$2a$11$rAQwDa6j2GBAE9AYoz3L8O6aBC.bS1pl0IfeAPOswCiyq8JuMNu1a",
                             RoleT = 3,
                             UserId = 2,
                             Username = "admin"
@@ -422,13 +422,13 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                             About = "Guest is cool guy!",
                             Avatar = "guest.jpg",
                             Cover = "c_guest.jpg",
-                            DateAccountCreated = new DateTime(2022, 7, 14, 15, 26, 50, 610, DateTimeKind.Utc).AddTicks(7829),
+                            DateAccountCreated = new DateTime(2022, 7, 15, 14, 5, 21, 182, DateTimeKind.Utc).AddTicks(9421),
                             DateBirthday = new DateTime(1995, 5, 2, 23, 0, 0, 0, DateTimeKind.Utc),
                             Email = "guest@localhost.loc",
                             FirstName = "Guest",
                             LastName = "Convidado",
-                            PasswordT = "$2a$11$2SERCjSvNPvsIDomsbzZguKvHQsAn2EcVUbv.Ah3X06cG22oejjoG",
-                            Pin = "$2a$11$.9Kq/UPB8/qJL/zpYSYHJuB5DHtt3v0QWEoSM9WY8lQ3e.NIWO2B2",
+                            PasswordT = "$2a$11$6E3l8GE8PNxncWzNsuACS.I16pe0gjv1KUzC1Uv956Fv1/svZAYQe",
+                            Pin = "$2a$11$zLaZITylbA/Rf7lqXGc93uFYYOYIERlG2uCuEY9xuYxQ1J8UxCzaq",
                             RoleT = 1,
                             Username = "guest"
                         },
@@ -438,13 +438,13 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                             About = "Admin is cool guy!",
                             Avatar = "theflash.jpg",
                             Cover = "theflash.jpg",
-                            DateAccountCreated = new DateTime(2022, 7, 14, 15, 26, 50, 953, DateTimeKind.Utc).AddTicks(1599),
+                            DateAccountCreated = new DateTime(2022, 7, 15, 14, 5, 21, 522, DateTimeKind.Utc).AddTicks(2225),
                             DateBirthday = new DateTime(1995, 6, 3, 23, 0, 0, 0, DateTimeKind.Utc),
                             Email = "admin@localhost.loc",
                             FirstName = "Admin",
                             LastName = "Admin",
-                            PasswordT = "$2a$11$b2D3E7wwP95.jDUH95mHpO529hnicD9.ndGky7sxcCL9m60G5f9/W",
-                            Pin = "$2a$11$zaQwe3ZP6wA4M.yy0BfJteGxLaIWj6d83JIfEbv3TL2OLo7QtykaW",
+                            PasswordT = "$2a$11$sDeXlCVkC7KOmngASmZeAuZknY70vXROtfRyMVr/GSBLrD679aR62",
+                            Pin = "$2a$11$.ahnRNzP4KV6x9FACtWM3uV4950OWBryQ4LAdeW..4Xou89sq.J5K",
                             RoleT = 3,
                             Username = "admin"
                         });
@@ -460,34 +460,46 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("TokenId"), 1L, 1);
 
                     b.Property<string>("AccessToken")
-                        .HasMaxLength(255)
+                        .HasMaxLength(1024)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<int?>("Authenticated")
                         .HasColumnType("int")
                         .HasColumnName("Authenticated");
 
                     b.Property<string>("Created")
-                        .HasMaxLength(255)
+                        .HasMaxLength(1024)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<string>("Expiration")
-                        .HasMaxLength(255)
+                        .HasMaxLength(1024)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<string>("Message")
-                        .HasMaxLength(255)
+                        .HasMaxLength(1024)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(1024)");
+
+                    b.Property<int?>("UserAuthId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserAuthId");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int")
                         .HasColumnName("UserId");
 
                     b.HasKey("TokenId");
+
+                    b.HasIndex("UserAuthId")
+                        .IsUnique()
+                        .HasFilter("[UserAuthId] IS NOT NULL");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("UserToken", (string)null);
 
@@ -500,8 +512,34 @@ namespace LCPFavThingsWApi.Migrations.SqlServerMigrations
                             Created = "2022-07-14T16:21:00",
                             Expiration = "2022-07-14T17:21:00",
                             Message = "OK",
+                            UserAuthId = 1,
                             UserId = 1
                         });
+                });
+
+            modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.UserToken", b =>
+                {
+                    b.HasOne("LCPFavThingsWApi.Models.UserAuth", "UsersAuth")
+                        .WithOne("TokenInfo")
+                        .HasForeignKey("LCPFavThingsWApi.SecurityApi.JWT.UserToken", "UserAuthId");
+
+                    b.HasOne("LCPFavThingsWApi.Models.Users", "Users")
+                        .WithOne("TokenInfo")
+                        .HasForeignKey("LCPFavThingsWApi.SecurityApi.JWT.UserToken", "UserId");
+
+                    b.Navigation("Users");
+
+                    b.Navigation("UsersAuth");
+                });
+
+            modelBuilder.Entity("LCPFavThingsWApi.Models.UserAuth", b =>
+                {
+                    b.Navigation("TokenInfo");
+                });
+
+            modelBuilder.Entity("LCPFavThingsWApi.Models.Users", b =>
+                {
+                    b.Navigation("TokenInfo");
                 });
 #pragma warning restore 612, 618
         }

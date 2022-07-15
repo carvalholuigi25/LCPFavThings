@@ -1,6 +1,7 @@
 ﻿using LCPFavThingsWApi.Models;
 using LCPFavThingsWApi.SecurityApi.JWT;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace LCPFavThingsWApi.Context
 {
@@ -30,6 +31,9 @@ namespace LCPFavThingsWApi.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Users>().HasOne<UserToken>(s => s.TokenInfo).WithOne(x => x.Users).HasForeignKey<UserToken>(x => x.UserId);
+            modelBuilder.Entity<UserAuth>().HasOne<UserToken>(s => s.TokenInfo).WithOne(x => x.UsersAuth).HasForeignKey<UserToken>(x => x.UserAuthId);
+
             modelBuilder.Entity<Movies>(entity =>
             {
                 entity.ToTable("Movies");
@@ -109,25 +113,22 @@ namespace LCPFavThingsWApi.Context
                 entity.Property(e => e.UserId).HasColumnName("UserId");
                 entity.Property(e => e.Avatar).HasMaxLength(255).IsUnicode(false);
                 entity.Property(e => e.RoleT).HasMaxLength(255).IsUnicode(false);
-                //entity.Property(e => e.TokenInfo).HasColumnName("TokenInfo");
             });
 
             modelBuilder.Entity<UserToken>(entity =>
             {
                 entity.ToTable("UserToken");
-                //entity.HasNoKey();
 
                 entity.Property(e => e.TokenId).HasColumnName("TokenId");
                 entity.Property(e => e.Authenticated).HasColumnName("Authenticated");
-                entity.Property(e => e.Created).HasMaxLength(255).IsUnicode(false);
-                entity.Property(e => e.Expiration).HasMaxLength(255).IsUnicode(false);
-                entity.Property(e => e.AccessToken).HasMaxLength(255).IsUnicode(false);
-                entity.Property(e => e.Message).HasMaxLength(255).IsUnicode(false);
+                entity.Property(e => e.Created).HasMaxLength(1024).IsUnicode(false);
+                entity.Property(e => e.Expiration).HasMaxLength(1024).IsUnicode(false);
+                entity.Property(e => e.AccessToken).HasMaxLength(1024).IsUnicode(false);
+                entity.Property(e => e.Message).HasMaxLength(1024).IsUnicode(false);
                 entity.Property(e => e.UserId).HasColumnName("UserId");
+                entity.Property(e => e.UserAuthId).HasColumnName("UserAuthId");
             });
 
-            modelBuilder.Entity<Users>().Ignore(t => t.TokenInfo);
-            modelBuilder.Entity<UserAuth>().Ignore(t => t.TokenInfo);
             modelBuilder.Seed();
 
             OnModelCreatingPartial(modelBuilder);

@@ -65,17 +65,18 @@
 
             if (valdbm == "local")
             {
-                //userslistv = await locdbdatasrv.Read<lib.Models.UserAuth>();
                 var myuserslistact = (await locdbdatasrv.Read<lib.Models.Users>()).ToList().Where(x => x.Username == usersauth.Username).FirstOrDefault();
-                
-                userslistv = await locdbdatasrv.CreateAndGet<lib.Models.UserAuth>(new lib.Models.UserAuth()
+                var myauthdet = new lib.Models.UserAuth()
                 {
                     Username = myuserslistact.Username,
                     Password = myuserslistact.PasswordT,
                     Avatar = myuserslistact.Avatar,
                     RoleT = myuserslistact.RoleT,
-                    UserId = myuserslistact.UserId
-                });
+                    UserId = myuserslistact.UserId,
+                    TokenInfo = myuserslistact.TokenInfo
+                };
+
+                userslistv = await locdbdatasrv.CreateAndGet<lib.Models.UserAuth>(myauthdet);
             }
             else
             {
@@ -84,11 +85,19 @@
 
             if (userslistv != null)
             {
-                var jspdata = userslistv.Count > 0 ? JsonConvert.SerializeObject(userslistv.Where(x => x.Username == usersauth.Username).FirstOrDefault()) : null;
+                var lstdata = userslistv.Where(x => x.Username == usersauth.Username).FirstOrDefault();
+
+                if (lstdata.TokenInfo == null)
+                {
+                    lstdata.TokenInfo = MyExtensions.GenerateToken(lstdata.Username, lstdata.UserId).TokenInfo;
+                }
+
+                var jspdata = lstdata != null ? JsonConvert.SerializeObject(lstdata) : null;
 
                 if(jspdata != null)
                 {
                     await ls.Save("authinfo", jspdata);
+
 
                     if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
                     {

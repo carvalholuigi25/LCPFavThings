@@ -45,7 +45,7 @@ namespace LCPFavThings.Helpers
         {
             var myainfo = lsh != null && !string.IsNullOrEmpty(await lsh.Get("authinfo")) ? await lsh.Get("authinfo") : "";
             var objainfo = myainfo.Length > 0 ? JsonConvert.DeserializeObject<Users>(myainfo) : null;
-            return objainfo != null ? objainfo.TokenInfo.AccessToken.ToString() : "";
+            return objainfo != null ? (objainfo.TokenInfo != null ? objainfo.TokenInfo.AccessToken : "") : "";
         }
     }
 }

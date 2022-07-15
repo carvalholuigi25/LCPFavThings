@@ -1,6 +1,12 @@
 ﻿using LCPFavThings.Helpers;
+using LCPFavThingsLib.Models;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.JSInterop;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Text;
 
 namespace LCPFavThings
 {
@@ -91,5 +97,47 @@ namespace LCPFavThings
 		{
 			return Convert.ToDateTime(val, CultureInfo.InvariantCulture);
 		}
-	}
+
+        public static UserAuth GenerateToken(string username, int? id = 1)
+        {
+            ClaimsIdentity identity = new(
+                new GenericIdentity(username!, "Login"),
+                new[] {
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+                    new Claim(JwtRegisteredClaimNames.UniqueName, username!)
+                }
+            );
+
+            DateTime dataCriacao = DateTime.Now;
+            DateTime dataExpiracao = dataCriacao + TimeSpan.FromSeconds(3600);
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("eyJzdWIiOiI1NDAxODI1ODYwIiwibmFtZSI6Ik1yR3Vlc3QiLCJpYXQiOjU2NjkyMDUwMTkzNH0"));
+
+            var handler = new JwtSecurityTokenHandler();
+            var securityToken = handler.CreateToken(new SecurityTokenDescriptor
+            {
+                Issuer = "LCPFTIssuer",
+                Audience = "LCPFTAudience",
+                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha384Signature),
+                Subject = identity,
+                NotBefore = dataCriacao,
+                Expires = dataExpiracao
+            });
+            var token = handler.WriteToken(securityToken);
+
+            return new UserAuth()
+            {
+				TokenInfo = new UserToken()
+				{
+					TokenId = 1,
+					Authenticated = 1,
+					Created = dataCriacao.ToString("yyyy-MM-dd HH:mm:ss"),
+					Expiration = dataExpiracao.ToString("yyyy-MM-dd HH:mm:ss"),
+					AccessToken = token,
+					Message = "OK",
+					UserId = id
+                }
+            };
+        }
+    }
 }

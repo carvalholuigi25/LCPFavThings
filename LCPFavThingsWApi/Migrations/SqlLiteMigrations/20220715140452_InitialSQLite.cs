@@ -83,8 +83,8 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                     Username = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
                     Password = table.Column<string>(type: "TEXT", unicode: false, maxLength: 1024, nullable: true),
                     RoleT = table.Column<int>(type: "INTEGER", unicode: false, maxLength: 255, nullable: true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
-                    Avatar = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true)
+                    Avatar = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -122,15 +122,26 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                     TokenId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Authenticated = table.Column<int>(type: "INTEGER", nullable: true),
-                    Created = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
-                    Expiration = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
-                    AccessToken = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
-                    Message = table.Column<string>(type: "TEXT", unicode: false, maxLength: 255, nullable: true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Created = table.Column<string>(type: "TEXT", unicode: false, maxLength: 1024, nullable: true),
+                    Expiration = table.Column<string>(type: "TEXT", unicode: false, maxLength: 1024, nullable: true),
+                    AccessToken = table.Column<string>(type: "TEXT", unicode: false, maxLength: 1024, nullable: true),
+                    Message = table.Column<string>(type: "TEXT", unicode: false, maxLength: 1024, nullable: true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
+                    UserAuthId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserToken", x => x.TokenId);
+                    table.ForeignKey(
+                        name: "FK_UserToken_UserAuth_UserAuthId",
+                        column: x => x.UserAuthId,
+                        principalTable: "UserAuth",
+                        principalColumn: "UserAuthId");
+                    table.ForeignKey(
+                        name: "FK_UserToken_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.InsertData(
@@ -156,27 +167,39 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
             migrationBuilder.InsertData(
                 table: "UserAuth",
                 columns: new[] { "UserAuthId", "Avatar", "Password", "RoleT", "UserId", "Username" },
-                values: new object[] { 1, "guest.jpg", "$2a$11$c.X83CuQZni874XR8NZ1A.mlJyIu6K5HkSSlDvaWHcbHLevsrKiYu", 1, 1, "guest" });
+                values: new object[] { 1, "guest.jpg", "$2a$11$dkPo2BI.GIDetapgEINeweKTB0nNHsv/ukY6Lg9Fj5u07GbHUwR3i", 1, 1, "guest" });
 
             migrationBuilder.InsertData(
                 table: "UserAuth",
                 columns: new[] { "UserAuthId", "Avatar", "Password", "RoleT", "UserId", "Username" },
-                values: new object[] { 2, "theflash.jpg", "$2a$11$CIWKa0LVuVf3It6lfYZhhu0X/wkJhFwkF1xhM6FN1hFsBnPdMxIjq", 3, 2, "admin" });
+                values: new object[] { 2, "theflash.jpg", "$2a$11$YY55RTdGgCzGipnj6r/ZkuFU5o5Ctr/zzS/BkkEk84uO.N9duNQm2", 3, 2, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "About", "Avatar", "Cover", "DateAccountCreated", "DateBirthday", "Email", "FirstName", "LastName", "PasswordT", "Pin", "RoleT", "Username" },
+                values: new object[] { 1, "Guest is cool guy!", "guest.jpg", "c_guest.jpg", new DateTime(2022, 7, 15, 14, 4, 51, 667, DateTimeKind.Utc).AddTicks(1951), new DateTime(1995, 5, 2, 23, 0, 0, 0, DateTimeKind.Utc), "guest@localhost.loc", "Guest", "Convidado", "$2a$11$SP9zZWnbyN2dQPSXt9dX..YMUdCyRiC23bQfc3DP6h1ylWKsa/n1C", "$2a$11$QAipDm.ZCBVlHKqcee9LX.wbb7jDt9lQhQTjaUqcwvSo.kCMNmFB.", 1, "guest" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "About", "Avatar", "Cover", "DateAccountCreated", "DateBirthday", "Email", "FirstName", "LastName", "PasswordT", "Pin", "RoleT", "Username" },
+                values: new object[] { 2, "Admin is cool guy!", "theflash.jpg", "theflash.jpg", new DateTime(2022, 7, 15, 14, 4, 52, 52, DateTimeKind.Utc).AddTicks(465), new DateTime(1995, 6, 3, 23, 0, 0, 0, DateTimeKind.Utc), "admin@localhost.loc", "Admin", "Admin", "$2a$11$59HwDO1U65B760j2cjd5vuWxuotYPvbl6vVZwFbeOTG/rBK.9BTP2", "$2a$11$ZECoh9Q54N/LBAMdPasp1Ok0InNZiAMqpg6Ra7m0X5QbhTXxW7ibS", 3, "admin" });
 
             migrationBuilder.InsertData(
                 table: "UserToken",
-                columns: new[] { "TokenId", "AccessToken", "Authenticated", "Created", "Expiration", "Message", "UserId" },
-                values: new object[] { 1, "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ", 1, "2022-07-14T16:21:00", "2022-07-14T17:21:00", "OK", 1 });
+                columns: new[] { "TokenId", "AccessToken", "Authenticated", "Created", "Expiration", "Message", "UserAuthId", "UserId" },
+                values: new object[] { 1, "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ", 1, "2022-07-14T16:21:00", "2022-07-14T17:21:00", "OK", 1, 1 });
 
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "UserId", "About", "Avatar", "Cover", "DateAccountCreated", "DateBirthday", "Email", "FirstName", "LastName", "PasswordT", "Pin", "RoleT", "Username" },
-                values: new object[] { 1, "Guest is cool guy!", "guest.jpg", "c_guest.jpg", new DateTime(2022, 7, 14, 15, 26, 20, 791, DateTimeKind.Utc).AddTicks(7451), new DateTime(1995, 5, 2, 23, 0, 0, 0, DateTimeKind.Utc), "guest@localhost.loc", "Guest", "Convidado", "$2a$11$pBTZK1L.Ki7Q6yzgDrLemev2gqw9ac4QzYo219UMrAvPT87m5kMA2", "$2a$11$RoeLY79YhxxQA6vkJ99yP.711Iov40C5tg.TCaD8Aid49enRWSFJK", 1, "guest" });
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToken_UserAuthId",
+                table: "UserToken",
+                column: "UserAuthId",
+                unique: true);
 
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "UserId", "About", "Avatar", "Cover", "DateAccountCreated", "DateBirthday", "Email", "FirstName", "LastName", "PasswordT", "Pin", "RoleT", "Username" },
-                values: new object[] { 2, "Admin is cool guy!", "theflash.jpg", "theflash.jpg", new DateTime(2022, 7, 14, 15, 26, 21, 128, DateTimeKind.Utc).AddTicks(8292), new DateTime(1995, 6, 3, 23, 0, 0, 0, DateTimeKind.Utc), "admin@localhost.loc", "Admin", "Admin", "$2a$11$.pGcyi00OEBe8KpoP0226uFLabIyG4CPTDZOwQ4vvrIFX4oFoRXym", "$2a$11$GnMa4jU0nmp0thKaS93QgeHIq99ZY95orqW9K4lh7JPc97931OwTm", 3, "admin" });
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToken_UserId",
+                table: "UserToken",
+                column: "UserId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -191,13 +214,13 @@ namespace LCPFavThingsWApi.Migrations.SqlLiteMigrations
                 name: "TVSeries");
 
             migrationBuilder.DropTable(
+                name: "UserToken");
+
+            migrationBuilder.DropTable(
                 name: "UserAuth");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "UserToken");
         }
     }
 }

@@ -318,7 +318,7 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                         {
                             UserAuthId = 1,
                             Avatar = "guest.jpg",
-                            Password = "$2a$11$T49GaYg/YJlHHKshEbEA9.R/SOqF6NBsQyQ2FWGVKPAabtzP.TXMW",
+                            Password = "$2a$11$NQT3BB2/69mnmUxfT.4aZuMI74crBeZ2umQjNF04PFcLjhFbTGvZ2",
                             RoleT = 1,
                             UserId = 1,
                             Username = "guest"
@@ -327,7 +327,7 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                         {
                             UserAuthId = 2,
                             Avatar = "theflash.jpg",
-                            Password = "$2a$11$6nJkocNio1M7YGHEAANfpu0eUOA.5fdA0jA6cMxNB4NelCOD02sWy",
+                            Password = "$2a$11$zoHFQVRiB19vhoOLGhjr0uYIlDWMqQ6KC6ubZGedKvlE7HWWgwGFu",
                             RoleT = 3,
                             UserId = 2,
                             Username = "admin"
@@ -409,13 +409,13 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                             About = "Guest is cool guy!",
                             Avatar = "guest.jpg",
                             Cover = "c_guest.jpg",
-                            DateAccountCreated = new DateTime(2022, 7, 14, 15, 25, 50, 116, DateTimeKind.Utc).AddTicks(354),
+                            DateAccountCreated = new DateTime(2022, 7, 15, 14, 4, 17, 950, DateTimeKind.Utc).AddTicks(5956),
                             DateBirthday = new DateTime(1995, 5, 2, 23, 0, 0, 0, DateTimeKind.Utc),
                             Email = "guest@localhost.loc",
                             FirstName = "Guest",
                             LastName = "Convidado",
-                            PasswordT = "$2a$11$cjTs9fbAxbgEeOAtAYUj3O8iZrvLpUeJpzbvWg0r2KzrvJZZT8XQu",
-                            Pin = "$2a$11$RTRsFc8iyqmV/AT4QkDgMO6ifrxIDbbv2MxZc18k2A1TkojL5aC.a",
+                            PasswordT = "$2a$11$khr3A1FEbGauZ5sa2X9UZ./NFa5s1LqJGzJG7zcIKWGuo8naaTu7S",
+                            Pin = "$2a$11$NCuTOZrWcHdxzc6kSbNPFuAGxZPylaWtxxVDXzfkUmkl/bfOxcjdC",
                             RoleT = 1,
                             Username = "guest"
                         },
@@ -425,13 +425,13 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                             About = "Admin is cool guy!",
                             Avatar = "theflash.jpg",
                             Cover = "theflash.jpg",
-                            DateAccountCreated = new DateTime(2022, 7, 14, 15, 25, 50, 507, DateTimeKind.Utc).AddTicks(5100),
+                            DateAccountCreated = new DateTime(2022, 7, 15, 14, 4, 18, 380, DateTimeKind.Utc).AddTicks(9839),
                             DateBirthday = new DateTime(1995, 6, 3, 23, 0, 0, 0, DateTimeKind.Utc),
                             Email = "admin@localhost.loc",
                             FirstName = "Admin",
                             LastName = "Admin",
-                            PasswordT = "$2a$11$/0QBiIXvhrR9XnoyUSXrDuFqCynEzjwIESAq/v2irQH809jLurA4m",
-                            Pin = "$2a$11$fGOhXpiY0lj4ccYJl.3hxud2dMn0JeWK8jPqX3GCVhDA.cNdBn3Rq",
+                            PasswordT = "$2a$11$yLVZYsLiPK6bOBCiJ79f2.sQBjHdBwKQ/xvjLMrL.S.cqCijLK0tG",
+                            Pin = "$2a$11$OsR/yyc03zjzMB7lfZJJfusVWXNctadRNwBCJXDqhAhy3IdmEG6LG",
                             RoleT = 3,
                             Username = "admin"
                         });
@@ -445,34 +445,44 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                         .HasColumnName("TokenId");
 
                     b.Property<string>("AccessToken")
-                        .HasMaxLength(255)
+                        .HasMaxLength(1024)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<int?>("Authenticated")
                         .HasColumnType("int")
                         .HasColumnName("Authenticated");
 
                     b.Property<string>("Created")
-                        .HasMaxLength(255)
+                        .HasMaxLength(1024)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<string>("Expiration")
-                        .HasMaxLength(255)
+                        .HasMaxLength(1024)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<string>("Message")
-                        .HasMaxLength(255)
+                        .HasMaxLength(1024)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(1024)");
+
+                    b.Property<int?>("UserAuthId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserAuthId");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int")
                         .HasColumnName("UserId");
 
                     b.HasKey("TokenId");
+
+                    b.HasIndex("UserAuthId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserToken", (string)null);
 
@@ -485,8 +495,34 @@ namespace LCPFavThingsWApi.Migrations.MySqlMigrations
                             Created = "2022-07-14T16:21:00",
                             Expiration = "2022-07-14T17:21:00",
                             Message = "OK",
+                            UserAuthId = 1,
                             UserId = 1
                         });
+                });
+
+            modelBuilder.Entity("LCPFavThingsWApi.SecurityApi.JWT.UserToken", b =>
+                {
+                    b.HasOne("LCPFavThingsWApi.Models.UserAuth", "UsersAuth")
+                        .WithOne("TokenInfo")
+                        .HasForeignKey("LCPFavThingsWApi.SecurityApi.JWT.UserToken", "UserAuthId");
+
+                    b.HasOne("LCPFavThingsWApi.Models.Users", "Users")
+                        .WithOne("TokenInfo")
+                        .HasForeignKey("LCPFavThingsWApi.SecurityApi.JWT.UserToken", "UserId");
+
+                    b.Navigation("Users");
+
+                    b.Navigation("UsersAuth");
+                });
+
+            modelBuilder.Entity("LCPFavThingsWApi.Models.UserAuth", b =>
+                {
+                    b.Navigation("TokenInfo");
+                });
+
+            modelBuilder.Entity("LCPFavThingsWApi.Models.Users", b =>
+                {
+                    b.Navigation("TokenInfo");
                 });
 #pragma warning restore 612, 618
         }
