@@ -1,20 +1,23 @@
 ﻿using LCPFavThingsLib.Models;
 using Newtonsoft.Json;
+using Blazored.LocalStorage;
 
 namespace LCPFavThings.Helpers
 {
     public static class HTTPHelper
     {
         public static readonly ILSHelper lsh;
+        public static readonly ISyncLocalStorageService ils;
+
         public static string GetMyBaseAddress()
         {
-            var isSSL = true;
-            var port = isSSL ? 5001 : 5000;
-            var httph = isSSL ? "https" : "http";
+            //var isSSL = !string.IsNullOrEmpty(ils.GetItem<string>("isSSL")) ? ils.GetItem<string>("isSSL") : "true";
+            var isSSL = "true";
+            var port = isSSL == "true" ? 5001 : 5000;
+            var httph = isSSL == "true" ? "https" : "http";
             var localAddress = $@"{httph}://localhost:{port}";
             var virtualAddress = $@"{httph}://10.0.2.2:{port}";
             var srvRealAddress = $@"{httph}://192.168.1.67:{port}";
-            //var virtualAddress = DeviceInfo.DeviceType == DeviceType.Physical ? $@"{httph}://192.168.1.67:{port}" : $@"{httph}://10.0.2.2:{port}";
 
             return DeviceInfo.Platform == DevicePlatform.Android ? (DeviceInfo.DeviceType == DeviceType.Physical ? srvRealAddress : virtualAddress) : localAddress;
         }

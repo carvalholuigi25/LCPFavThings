@@ -1,4 +1,5 @@
-﻿using Blazorise;
+﻿using Blazored.LocalStorage;
+using Blazorise;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using LCPFavThings.Data.SQL;
@@ -12,7 +13,6 @@ public static class MauiProgram
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
-        string MyBaseAddress = HTTPHelper.GetMyBaseAddress();
 
         builder.UseMauiApp<App>()
 		.ConfigureFonts(fonts =>
@@ -28,13 +28,14 @@ public static class MauiProgram
         builder.Services.AddMauiBlazorWebView();
 		#if DEBUG
 			builder.Services.AddBlazorWebViewDeveloperTools();
-		#endif
+        #endif
 
+        builder.Services.AddBlazoredLocalStorage();
         builder.Services.AddScoped<ILSHelper, LSHelper>();
         builder.Services.AddSingleton<ILocalDBDataService, LocalDBDataService>();
         builder.Services.AddHttpClient<IAllDataService, AllDataService>(client =>
 		{
-            client.BaseAddress = new Uri(MyBaseAddress);
+            client.BaseAddress = new Uri(HTTPHelper.GetMyBaseAddress());
             //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", " " + SetBearerJWT());
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + HTTPHelper.SetBearerJWT());
         }).ConfigurePrimaryHttpMessageHandler(() => HTTPHelper.GetInsecureHandler(0));

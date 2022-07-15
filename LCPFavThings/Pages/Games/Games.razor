@@ -83,48 +83,50 @@ else
 		await MyExtensions.LoadMyCultureInfo(JS);
 
 		var valdbm = !string.IsNullOrEmpty(await LSH.Get("dbmode")) ? await LSH.Get("dbmode") : "server";
-		if (valdbm == "server_realtime")
-		{
-			hubConnection = new HubConnectionBuilder()
-						.WithUrl(NavigationManager.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress()+"/broadcastHub"))
-						.Build();
 
-			hubConnection.On("ReceiveMessage", async () =>
+		try
+		{
+			if (valdbm == "server_realtime")
+			{
+				hubConnection = new HubConnectionBuilder()
+							.WithUrl(NavigationManager.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/broadcastHub"))
+							.Build();
+
+				hubConnection.On("ReceiveMessage", async () =>
+				{
+					await LoadData(valdbm);
+					StateHasChanged();
+				});
+
+				await hubConnection.StartAsync();
+
+				await LoadData(valdbm);
+			}
+			else
 			{
 				await LoadData(valdbm);
-				StateHasChanged();
-			});
-
-			await hubConnection.StartAsync();
-
-			await LoadData(valdbm);
+			}
 		}
-		else
+		catch (Exception e)
 		{
-			await LoadData(valdbm);
+			ErrorMsg = $"Message: {e.Message} \r\n URL: {HTTPHelper.GetMyBaseAddress()} \r\n DB Mode Type: {valdbm}";
+			await JS.InvokeVoidAsync("alert", ErrorMsg);
 		}
+
+		StateHasChanged();
 	}
 
 	protected async Task LoadData(string vdbm = "server") {
 		Mode = !string.IsNullOrEmpty(await LSH.Get("viewmode")) ? await LSH.Get("viewmode") : "table";
 
-		try
+		if (vdbm == "server" || vdbm == "server_realtime")
 		{
-			if (vdbm == "server" || vdbm == "server_realtime")
-			{
-				games = await AllDataService.Get<lib.Models.Games>("games");
-			}
-			else
-			{
-				games = await LocalDBDataService.Read<lib.Models.Games>();
-			}
+			games = await AllDataService.Get<lib.Models.Games>("games");
 		}
-		catch (Exception e)
+		else
 		{
-			ErrorMsg = $"Message: {e.Message} \r\n URL: {HTTPHelper.GetMyBaseAddress()} \r\n DB Mode Type: {vdbm}";
+			games = await LocalDBDataService.Read<lib.Models.Games>();
 		}
-
-		StateHasChanged();
 	}
 
 	public bool IsConnected =>
