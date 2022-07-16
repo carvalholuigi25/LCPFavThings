@@ -15,8 +15,8 @@
     <Microsoft.AspNetCore.Components.Forms.DataAnnotationsValidator />
     <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
 
-    <div class="form-group mt-3 hidden">
-        <label for="userid" class="hidden">User Id</label>
+    <div class="form-group hidden mt-3">
+        <label for="userid" class="useridtitle hidden">User Id</label>
         <InputNumber min="1" class="userid form-control hidden" id="userid" @bind-Value="users.UserId" />
     </div>
 
@@ -134,13 +134,16 @@
         {
             if (users != null)
             {
-                userslist = userslist.Where(x => x.Username == users.Username && x.PasswordT == users.PasswordT).ToList();
+                userslist = userslist.Where(x => x.Username == users.Username).ToList();
 
-                if (userslist.Count() == 0)
+                if (userslist.Count == 0)
                 {
                     if(valdbm == "local")
                     {
-                        users.PasswordT = bc.HashPassword(users.PasswordT);
+                        if(!string.IsNullOrEmpty(users.PasswordT)) {
+                            users.PasswordT = bc.HashPassword(users.PasswordT);
+                        }
+
                         await locdbdatasrv.Create<lib.Models.Users>(users);
                     }
                     else
@@ -148,23 +151,25 @@
                         await alldatasrv.Insert<lib.Models.Users>("users", users);
                     }
 
-                    await JS.InvokeVoidAsync("alert", $"Succesfully registered as {userslist[0].Username}!");
+                    await JS.InvokeVoidAsync("alert", $"Succesfully registered as {users.Username}!");
                 }
                 else
                 {
                     await JS.InvokeVoidAsync("alert", $@"
-                    Error: Occurred error when trying to register with this account {userslist[0].Username}.
+                    Error: Occurred error when trying to register with this account {users.Username}.
                     {Environment.NewLine}
                     Reason:
                     {Environment.NewLine}
                     The account already exists.");
                 }
 
+                Clear();
                 navman.NavigateTo("/login", true);
             }
         }
         catch (Exception ex)
         {
+            Clear();
             await JS.InvokeVoidAsync("alert", "" + ex.Message);
         }
     }

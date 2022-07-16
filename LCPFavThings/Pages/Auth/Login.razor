@@ -4,6 +4,7 @@
 @using LCPFavThings.Data.SQLite
 @using LCPFavThings.Helpers
 @using Newtonsoft.Json
+@using bc = BCrypt.Net.BCrypt
 
 <h3>
     <span class="bi bi-door-open ms-1"></span>
@@ -33,7 +34,7 @@
 <div class="d-block mt-3 ms-auto me-auto text-center infogroup">
     <i class="bi bi-info-circle" style="font-size: 3rem"></i>
     <p class="mt-3">New here or you dont have account here? Please create your account below here.</p>
-    <button class="btn btn-primary" @onclick="GoToReg">Register</button>
+    <button class="btn btn-primary mt-3" @onclick="GoToReg">Register</button>
 </div>
 
 @code {
@@ -60,74 +61,103 @@
 
     private async Task DoLogin()
     {
-        if(usersauth != null)
-        {
-            var userslistv = new List<lib.Models.UserAuth>();
-
-            if (valdbm == "local")
+        try {
+            if (usersauth != null)
             {
-                var myuserslistact = (await locdbdatasrv.Read<lib.Models.Users>()).ToList().Where(x => x.Username == usersauth.Username).FirstOrDefault();
-                var myauthdet = new lib.Models.UserAuth()
+                var userslistv = new List<lib.Models.UserAuth>();
+
+                if (valdbm == "local")
                 {
-                    Username = myuserslistact.Username,
-                    Password = myuserslistact.PasswordT,
-                    Avatar = myuserslistact.Avatar,
-                    RoleT = myuserslistact.RoleT,
-                    UserId = myuserslistact.UserId,
-                    TokenInfo = myuserslistact.TokenInfo
-                };
+                    var myuserslistact = (await locdbdatasrv.Read<lib.Models.Users>()).ToList().Where(x => x.Username == usersauth.Username).FirstOrDefault();
+                    var myauthdet = new lib.Models.UserAuth()
+                    {
+                        Username = myuserslistact.Username,
+                        Password = myuserslistact.PasswordT,
+                        Avatar = myuserslistact.Avatar,
+                        RoleT = myuserslistact.RoleT,
+                        UserId = myuserslistact.UserId,
+                        TokenInfo = myuserslistact.TokenInfo
+                    };
 
-                userslistv = await locdbdatasrv.CreateAndGet<lib.Models.UserAuth>(myauthdet);
-            }
-            else
-            {
-                userslistv = await alldatasrv.InsertAndGet<lib.Models.UserAuth>("auth", usersauth);
-            }
-
-            if (userslistv != null)
-            {
-                var lstdata = userslistv.Where(x => x.Username == usersauth.Username).FirstOrDefault();
-
-                if (lstdata.TokenInfo == null)
+                    userslistv = await locdbdatasrv.CreateAndGet<lib.Models.UserAuth>(myauthdet);
+                }
+                else
                 {
-                    lstdata.TokenInfo = MyExtensions.GenerateToken(lstdata.Username, lstdata.UserId).TokenInfo;
+                    userslistv = await alldatasrv.InsertAndGet<lib.Models.UserAuth>("auth", usersauth);
                 }
 
-                var jspdata = lstdata != null ? JsonConvert.SerializeObject(lstdata) : null;
-
-                if(jspdata != null)
+                if (userslistv != null)
                 {
-                    await ls.Save("authinfo", jspdata);
+                    var lstdata = userslistv.Where(x => x.Username == usersauth.Username).FirstOrDefault();
 
-
-                    if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
+                    if (lstdata.TokenInfo == null)
                     {
-                        await JS.InvokeVoidAsync("alert", $"Succesfully logged as {usersauth.Username}!");
-                        navman.NavigateTo("/", true);
+                        lstdata.TokenInfo = MyExtensions.GenerateToken(lstdata.Username, lstdata.UserId).TokenInfo;
+                    }
+
+                    var jspdata = lstdata != null ? JsonConvert.SerializeObject(lstdata) : null;
+
+                    if (jspdata != null)
+                    {
+                        var isUserExists = bc.Verify(usersauth.Password, lstdata.Password);
+
+                        if(isUserExists) 
+                        {
+                            await ls.Save("authinfo", jspdata);
+
+                            if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
+                            {
+                                await JS.InvokeVoidAsync("alert", $"Succesfully logged as {usersauth.Username}!");
+                                navman.NavigateTo("/", true);
+                            }
+                        } 
+                        else 
+                        {
+                            await DoShowError(usersauth);
+                        }
+                    }
+                    else 
+                    {
+                        await DoShowError(usersauth);
                     }
                 }
+                else
+                {
+                    await DoShowError(usersauth);
+                }
+
+                Clear();
             }
             else
             {
-                if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
-                {
-                    await ls.Delete("authinfo");
-                }
-
-                await JS.InvokeVoidAsync("alert", $@"
-                Error: Occurred error when trying to log with this account {usersauth.Username}.
-                {Environment.NewLine}
-                Reasons:
-                {Environment.NewLine}
-                The account does not exist.
-                {Environment.NewLine}
-                The account has already been registered by someone else.");
+                Clear();
+                await JS.InvokeVoidAsync("alert", @"Error: Please write your credientals of actual user into fields. Thank you!");
             }
+        } catch (Exception e) {
+            Clear();
+            await JS.InvokeVoidAsync("alert", "" + e.Message);
         }
-        else
+    }
+
+    private async Task DoShowError(lib.Models.UserAuth usersath) {
+
+        if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
         {
-            await JS.InvokeVoidAsync("alert", @"Error: Please write your credientals of actual user into fields. Thank you!");
+            await ls.Delete("authinfo");
         }
+
+        await JS.InvokeVoidAsync("alert", $@"
+        Error: Occurred error when trying to log with this account {usersath.Username}.
+        {Environment.NewLine}
+        Reasons:
+        {Environment.NewLine}
+        The account does not exist.
+        {Environment.NewLine}
+        The password of account is invalid.
+        {Environment.NewLine}
+        The account has already been registered by someone else.");
+        
+        navman.NavigateTo("/", true);
     }
 
     private void Clear()

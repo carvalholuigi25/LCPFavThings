@@ -24,6 +24,9 @@ table, .table {
     border-color: #1861ac;
 }
 
+.hidden, .hide { display: none !important; }
+.shown, .show { display: block !important; } 
+
 .content {
     padding-top: 1.1rem;
 }

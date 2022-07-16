@@ -104,15 +104,27 @@
         if (valdbm == "server")
         {
             await allcdb.Delete<LCPFavThings.Models.Users>("users", UserId);
+            await allcdb.Delete<LCPFavThings.Models.UserAuth>("auth", UserId);
         }
         else if(valdbm == "server_realtime")
         {
             await allcdb.Delete<LCPFavThings.Models.Users>("users", UserId);
+            await allcdb.Delete<LCPFavThings.Models.UserAuth>("auth", UserId);
             if (IsConnected) await SendMessage();
         }
         else
         {
             await lcdb.Delete<LCPFavThings.Models.Users>(users);
+            await lcdb.Delete<LCPFavThings.Models.UserAuth>(new LCPFavThings.Models.UserAuth()
+            {
+                UserId = users.UserId,
+                UserAuthId = users.UserId,
+                Username = users.Username,
+                Password = users.PasswordT,
+                RoleT = users.RoleT,
+                Avatar = users.Avatar,
+                TokenInfo = users.TokenInfo
+            });
         }
 
         navman.NavigateTo("users");
