@@ -155,12 +155,7 @@
                 }
                 else
                 {
-                    await JS.InvokeVoidAsync("alert", $@"
-                    Error: Occurred error when trying to register with this account {users.Username}.
-                    {Environment.NewLine}
-                    Reason:
-                    {Environment.NewLine}
-                    The account already exists.");
+                    await ShowError();
                 }
 
                 Clear();
@@ -172,6 +167,14 @@
             Clear();
             await JS.InvokeVoidAsync("alert", "" + ex.Message);
         }
+    }
+
+    private async Task ShowError() {
+
+        await JS.InvokeVoidAsync("alert", $@"
+        Error: Occurred error when trying to register with this account {users.Username}.
+        Reason:
+        The account already exists.");
     }
 
     private void Clear()

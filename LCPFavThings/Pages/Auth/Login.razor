@@ -61,7 +61,8 @@
 
     private async Task DoLogin()
     {
-        try {
+        try
+        {
             if (usersauth != null)
             {
                 var userslistv = new List<lib.Models.UserAuth>();
@@ -69,6 +70,8 @@
                 if (valdbm == "local")
                 {
                     var myuserslistact = (await locdbdatasrv.Read<lib.Models.Users>()).ToList().Where(x => x.Username == usersauth.Username).FirstOrDefault();
+                    if (myuserslistact == null) { await ShowError(); return; }
+
                     var myauthdet = new lib.Models.UserAuth()
                     {
                         Username = myuserslistact.Username,
@@ -90,74 +93,78 @@
                 {
                     var lstdata = userslistv.Where(x => x.Username == usersauth.Username).FirstOrDefault();
 
-                    if (lstdata.TokenInfo == null)
+                    if (lstdata != null)
                     {
-                        lstdata.TokenInfo = MyExtensions.GenerateToken(lstdata.Username, lstdata.UserId).TokenInfo;
-                    }
-
-                    var jspdata = lstdata != null ? JsonConvert.SerializeObject(lstdata) : null;
-
-                    if (jspdata != null)
-                    {
-                        var isUserExists = bc.Verify(usersauth.Password, lstdata.Password);
-
-                        if(isUserExists) 
+                        if (lstdata.TokenInfo == null)
                         {
-                            await ls.Save("authinfo", jspdata);
+                            lstdata.TokenInfo = MyExtensions.GenerateToken(lstdata.Username, lstdata.UserId).TokenInfo;
+                        }
 
-                            if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
+                        var jspdata = JsonConvert.SerializeObject(lstdata);
+
+                        if (!string.IsNullOrEmpty(jspdata))
+                        {
+                            var isUserExists = bc.Verify(usersauth.Password, lstdata.Password);
+
+                            if (isUserExists)
                             {
-                                await JS.InvokeVoidAsync("alert", $"Succesfully logged as {usersauth.Username}!");
-                                navman.NavigateTo("/", true);
+                                await ls.Save("authinfo", jspdata);
+
+                                if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
+                                {
+                                    await JS.InvokeVoidAsync("alert", $"Succesfully logged as {usersauth.Username}!");
+                                    navman.NavigateTo("/", true);
+                                }
                             }
-                        } 
-                        else 
+                            else
+                            {
+                                await ShowError();
+                            }
+                        }
+                        else
                         {
-                            await DoShowError(usersauth);
+                            await ShowError();
                         }
                     }
-                    else 
+                    else
                     {
-                        await DoShowError(usersauth);
+                        await ShowError();
                     }
                 }
                 else
                 {
-                    await DoShowError(usersauth);
+                    await ShowError();
                 }
-
-                Clear();
             }
             else
             {
                 Clear();
                 await JS.InvokeVoidAsync("alert", @"Error: Please write your credientals of actual user into fields. Thank you!");
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             Clear();
             await JS.InvokeVoidAsync("alert", "" + e.Message);
         }
     }
 
-    private async Task DoShowError(lib.Models.UserAuth usersath) {
-
+    private async Task ShowError() 
+    {
         if (!string.IsNullOrEmpty(await ls.Get("authinfo")))
         {
             await ls.Delete("authinfo");
         }
 
         await JS.InvokeVoidAsync("alert", $@"
-        Error: Occurred error when trying to log with this account {usersath.Username}.
-        {Environment.NewLine}
+        Error: Occurred error when trying to log with this account {usersauth.Username}.
         Reasons:
-        {Environment.NewLine}
         The account does not exist.
-        {Environment.NewLine}
         The password of account is invalid.
-        {Environment.NewLine}
-        The account has already been registered by someone else.");
-        
-        navman.NavigateTo("/", true);
+        The account has already been registered by somebody else.");
+
+        Clear();
+        navman.NavigateTo("/login", true);
     }
 
     private void Clear()
