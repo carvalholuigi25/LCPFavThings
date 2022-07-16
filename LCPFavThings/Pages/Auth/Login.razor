@@ -32,7 +32,8 @@
 
 <div class="d-block mt-3 ms-auto me-auto text-center infogroup">
     <i class="bi bi-info-circle" style="font-size: 3rem"></i>
-    <p class="mt-3">New here or you dont have account here? Please <a href="/register" target="_self">create your account</a></p>
+    <p class="mt-3">New here or you dont have account here? Please create your account below here.</p>
+    <button class="btn btn-primary" @onclick="GoToReg">Register</button>
 </div>
 
 @code {
@@ -132,5 +133,10 @@
     private void Clear()
     {
         usersauth = new lib.Models.UserAuth();
+    }
+
+    private void GoToReg() 
+    {
+        navman.NavigateTo("register");
     }
 }

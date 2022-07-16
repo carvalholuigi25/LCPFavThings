@@ -31,7 +31,7 @@
 
     <div class="form-group mt-3">
         <label for="pin">Pin</label>
-        <InputNumber class="pin form-control" id="pin" @bind-Value="users.Pin" />
+        <InputText type="text" class="pin form-control" id="pin" @bind-Value="users.Pin" />
     </div>
 
     <div class="form-group mt-3">
@@ -105,15 +105,6 @@
         await MyExtensions.LoadMyCultureInfo(JS);
 
         valdbm = !string.IsNullOrEmpty(await ls.Get("dbmode")) ? await ls.Get("dbmode") : "server";
-
-        if (valdbm == "local")
-        {
-            userslist = await locdbdatasrv.Read<lib.Models.Users>();
-        }
-        else
-        {
-            userslist = await alldatasrv.Get<lib.Models.Users>("users");
-        }
 
         StateHasChanged();
     }
