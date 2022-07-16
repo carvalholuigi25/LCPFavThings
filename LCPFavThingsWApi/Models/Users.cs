@@ -12,7 +12,7 @@ namespace LCPFavThingsWApi.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         public int? UserId { get; set; }
         [Required]
         public string? Username { get; set; }
@@ -35,7 +35,7 @@ namespace LCPFavThingsWApi.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         [SwaggerIgnore]
         public int? UserAuthId { get; set; }
         public string? Username { get; set; }

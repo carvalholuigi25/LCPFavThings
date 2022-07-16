@@ -14,6 +14,11 @@
     <Microsoft.AspNetCore.Components.Forms.DataAnnotationsValidator />
     <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
 
+    <div class="form-group mt-3 hidden">
+        <label for="userid" class="hidden">User Id</label>
+        <InputNumber min="1" class="userid form-control hidden" id="userid" @bind-Value="users.UserId" />
+    </div>
+
     <div class="form-group mt-3">
         <label for="username">Username</label>
         <InputText type="text" class="username form-control" id="username" @bind-Value="users.Username" />
@@ -105,6 +110,19 @@
         await MyExtensions.LoadMyCultureInfo(JS);
 
         valdbm = !string.IsNullOrEmpty(await ls.Get("dbmode")) ? await ls.Get("dbmode") : "server";
+
+        try {
+            if (valdbm == "local")
+            {
+                userslist = await locdbdatasrv.Read<lib.Models.Users>();
+            }
+            else
+            {
+                userslist = await alldatasrv.Get<lib.Models.Users>("users");
+            }
+        } catch(Exception e) {
+            await JS.InvokeVoidAsync("alert", "" + e.Message);
+        }
 
         StateHasChanged();
     }

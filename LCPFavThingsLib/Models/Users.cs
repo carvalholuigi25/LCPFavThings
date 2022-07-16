@@ -11,7 +11,7 @@ namespace LCPFavThingsLib.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         public int? UserId { get; set; }
         [Required]
         public string? Username { get; set; }
@@ -34,7 +34,7 @@ namespace LCPFavThingsLib.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         [SwaggerIgnore]
         public int? UserAuthId { get; set; }
         public string? Username { get; set; }
@@ -61,7 +61,7 @@ namespace LCPFavThingsLib.Models
         user = 2,
         admin = 3
     }
-    
+
     public class UserToken
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

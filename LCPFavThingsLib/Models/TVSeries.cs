@@ -10,7 +10,7 @@ namespace LCPFavThingsLib.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         public int? TVSerieId { get; set; }
 
         [Required]

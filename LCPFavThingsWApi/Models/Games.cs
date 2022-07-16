@@ -10,7 +10,7 @@ namespace LCPFavThingsWApi.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         public int? GameId { get; set; }
 
         [Required]

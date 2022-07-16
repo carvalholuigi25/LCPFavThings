@@ -10,7 +10,7 @@ namespace LCPFavThingsLib.Models
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         public int? MovieId { get; set; }
 
         [Required]
