@@ -4,6 +4,7 @@
 @using LCPFavThings.Data.SQLite
 @using LCPFavThings.Helpers
 @using Newtonsoft.Json
+@using bc = BCrypt.Net.BCrypt
 
 <h3>
     <span class="bi bi-person-badge ms-1"></span>
@@ -139,6 +140,7 @@
                 {
                     if(valdbm == "local")
                     {
+                        users.PasswordT = bc.HashPassword(users.PasswordT);
                         await locdbdatasrv.Create<lib.Models.Users>(users);
                     }
                     else
