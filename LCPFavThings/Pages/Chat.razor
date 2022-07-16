@@ -34,6 +34,7 @@
 
 @code {
     [Inject] public IStringLocalizer<srf.Resource> localizer { get; set; }
+    [Inject] public IJSRuntime JS { get; set; }
 
     //source: https://docs.microsoft.com/en-us/aspnet/core/blazor/tutorials/signalr-blazor?view=aspnetcore-6.0&tabs=visual-studio&pivots=webassembly
     #nullable enable
@@ -44,18 +45,25 @@
 
     protected override async Task OnInitializedAsync()
     {
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(NavigationManager.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/chatHub"))
-            .Build();
-
-        hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+        try 
         {
-            var encodedMsg = $"{user}: {message}";
-            messages.Add(encodedMsg);
-            StateHasChanged();
-        });
+            hubConnection = new HubConnectionBuilder()
+                .WithUrl(NavigationManager.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/chatHub"))
+                .Build();
 
-        await hubConnection.StartAsync();
+            hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+            {
+                var encodedMsg = $"{user}: {message}";
+                messages.Add(encodedMsg);
+                StateHasChanged();
+            });
+
+            await hubConnection.StartAsync();
+        }
+		catch (Exception e)
+		{
+            await JS.InvokeVoidAsync("alert", $"Message: {e.Message} \r\n URL: {HTTPHelper.GetMyBaseAddress()}");
+		}
     }
 
     private async Task Send()

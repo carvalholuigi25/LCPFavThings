@@ -85,26 +85,33 @@
         valdbm = !string.IsNullOrEmpty(await LSH.Get("dbmode")) ? await LSH.Get("dbmode") : "server";
         await MyExtensions.LoadMyCultureInfo(JS);
 
-        if (valdbm == "server_realtime")
+        try 
         {
-            tvserieslist = await allcdb.ReadById<LCPFavThings.Models.TVSeries>("tvseries", x => x.TVSerieId == TVSerieId);
+            if (valdbm == "server_realtime")
+            {
+                tvserieslist = await allcdb.ReadById<LCPFavThings.Models.TVSeries>("tvseries", x => x.TVSerieId == TVSerieId);
 
-            hubConnection = new HubConnectionBuilder()
-            .WithUrl(navman.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/broadcastHub"))
-            .Build();
+                hubConnection = new HubConnectionBuilder()
+                .WithUrl(navman.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/broadcastHub"))
+                .Build();
 
-            await hubConnection.StartAsync();
+                await hubConnection.StartAsync();
+            }
+            else if (valdbm == "server")
+            {
+                tvserieslist = await allcdb.ReadById<LCPFavThings.Models.TVSeries>("tvseries", x => x.TVSerieId == TVSerieId);
+            }
+            else
+            {
+                tvserieslist = await lcdb.ReadById<LCPFavThings.Models.TVSeries>(x => x.TVSerieId == TVSerieId);
+            }
+
+            tvseries = (LCPFavThings.Models.TVSeries)tvserieslist.FirstOrDefault();
         }
-        else if (valdbm == "server")
+        catch (Exception e)
         {
-            tvserieslist = await allcdb.ReadById<LCPFavThings.Models.TVSeries>("tvseries", x => x.TVSerieId == TVSerieId);
+            await JS.InvokeVoidAsync("alert", $"Message: {e.Message} \r\n URL: {HTTPHelper.GetMyBaseAddress()} \r\n DB Mode Type: {valdbm}");
         }
-        else
-        {
-            tvserieslist = await lcdb.ReadById<LCPFavThings.Models.TVSeries>(x => x.TVSerieId == TVSerieId);
-        }
-
-        tvseries = (LCPFavThings.Models.TVSeries)tvserieslist.FirstOrDefault();
 
         StateHasChanged();
     }

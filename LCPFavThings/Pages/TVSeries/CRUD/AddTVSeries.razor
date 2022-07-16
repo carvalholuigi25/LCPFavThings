@@ -83,13 +83,20 @@
 
         await MyExtensions.LoadMyCultureInfo(JS);
 
-        if (valdbm == "server_realtime")
+        try 
         {
-            hubConnection = new HubConnectionBuilder()
-                .WithUrl(navman.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/broadcastHub"))
-                .Build();
+            if (valdbm == "server_realtime")
+            {
+                hubConnection = new HubConnectionBuilder()
+                    .WithUrl(navman.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/broadcastHub"))
+                    .Build();
 
-            await hubConnection.StartAsync();
+                await hubConnection.StartAsync();
+            }
+        }
+        catch (Exception e)
+        {
+            await JS.InvokeVoidAsync("alert", $"Message: {e.Message} \r\n URL: {HTTPHelper.GetMyBaseAddress()} \r\n DB Mode Type: {valdbm}");
         }
 
         StateHasChanged();

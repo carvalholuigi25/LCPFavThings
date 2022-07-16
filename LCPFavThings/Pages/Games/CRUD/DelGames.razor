@@ -88,26 +88,33 @@
 
         await MyExtensions.LoadMyCultureInfo(JS);
 
-        if (valdbm == "server_realtime")
+        try 
         {
-            gameslist = await allcdb.ReadById<LCPFavThings.Models.Games>("games", x => x.GameId == GameId);
+            if (valdbm == "server_realtime")
+            {
+                gameslist = await allcdb.ReadById<LCPFavThings.Models.Games>("games", x => x.GameId == GameId);
 
-            hubConnection = new HubConnectionBuilder()
-                .WithUrl(navman.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/broadcastHub"))
-                .Build();
+                hubConnection = new HubConnectionBuilder()
+                    .WithUrl(navman.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/broadcastHub"))
+                    .Build();
 
-            await hubConnection.StartAsync();
+                await hubConnection.StartAsync();
+            }
+            else if (valdbm == "server")
+            {
+                gameslist = await allcdb.ReadById<LCPFavThings.Models.Games>("games", x => x.GameId == GameId);
+            }
+            else
+            {
+                gameslist = await lcdb.ReadById<LCPFavThings.Models.Games>(x => x.GameId == GameId);
+            }
+
+            games = (LCPFavThings.Models.Games)gameslist.FirstOrDefault();
         }
-        else if (valdbm == "server")
+        catch (Exception e)
         {
-            gameslist = await allcdb.ReadById<LCPFavThings.Models.Games>("games", x => x.GameId == GameId);
+            await JS.InvokeVoidAsync("alert", $"Message: {e.Message} \r\n URL: {HTTPHelper.GetMyBaseAddress()} \r\n DB Mode Type: {valdbm}");
         }
-        else
-        {
-            gameslist = await lcdb.ReadById<LCPFavThings.Models.Games>(x => x.GameId == GameId);
-        }
-
-        games = (LCPFavThings.Models.Games)gameslist.FirstOrDefault();
 
         StateHasChanged();
     }

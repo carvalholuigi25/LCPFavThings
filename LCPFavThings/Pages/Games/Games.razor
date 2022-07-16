@@ -110,7 +110,6 @@ else
 		catch (Exception e)
 		{
 			ErrorMsg = $"Message: {e.Message} \r\n URL: {HTTPHelper.GetMyBaseAddress()} \r\n DB Mode Type: {valdbm}";
-			await JS.InvokeVoidAsync("alert", ErrorMsg);
 		}
 
 		StateHasChanged();

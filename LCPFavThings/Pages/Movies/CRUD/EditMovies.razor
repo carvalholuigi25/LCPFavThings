@@ -77,26 +77,33 @@
         valdbm = !string.IsNullOrEmpty(await LSH.Get("dbmode")) ? await LSH.Get("dbmode") : "server";
         await MyExtensions.LoadMyCultureInfo(JS);
 
-        if (valdbm == "server_realtime")
+        try 
         {
-            movieslist = await allcdb.ReadById<LCPFavThings.Models.Movies>("movies", x => x.MovieId == MovieId);
+            if (valdbm == "server_realtime")
+            {
+                movieslist = await allcdb.ReadById<LCPFavThings.Models.Movies>("movies", x => x.MovieId == MovieId);
 
-            hubConnection = new HubConnectionBuilder()
-            .WithUrl(navman.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/broadcastHub"))
-            .Build();
+                hubConnection = new HubConnectionBuilder()
+                .WithUrl(navman.ToAbsoluteUri(HTTPHelper.GetMyBaseAddress() + "/broadcastHub"))
+                .Build();
 
-            await hubConnection.StartAsync();
+                await hubConnection.StartAsync();
+            }
+            else if (valdbm == "server")
+            {
+                movieslist = await allcdb.ReadById<LCPFavThings.Models.Movies>("movies", x => x.MovieId == MovieId);
+            }
+            else
+            {
+                movieslist = await lcdb.ReadById<LCPFavThings.Models.Movies>(x => x.MovieId == MovieId);
+            }
+
+            movies = (LCPFavThings.Models.Movies)movieslist.FirstOrDefault();
         }
-        else if (valdbm == "server")
+        catch (Exception e)
         {
-            movieslist = await allcdb.ReadById<LCPFavThings.Models.Movies>("movies", x => x.MovieId == MovieId);
+            await JS.InvokeVoidAsync("alert", $"Message: {e.Message} \r\n URL: {HTTPHelper.GetMyBaseAddress()} \r\n DB Mode Type: {valdbm}");
         }
-        else
-        {
-            movieslist = await lcdb.ReadById<LCPFavThings.Models.Movies>(x => x.MovieId == MovieId);
-        }
-
-        movies = (LCPFavThings.Models.Movies)movieslist.FirstOrDefault();
 
         StateHasChanged();
     }

@@ -55,8 +55,6 @@ else
 
 		var valdbm = !string.IsNullOrEmpty(await LSH.Get("dbmode")) ? await LSH.Get("dbmode") : "server";
 
-		await JSR.InvokeAsync<string>("console.log", UserId);
-
 		try
 		{
 			if (valdbm == "server" || valdbm == "server_realtime")
