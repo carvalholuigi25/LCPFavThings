@@ -1,0 +1,27 @@
+﻿@using LCPFavThings.Components.Services.Notifications
+@using static LCPFavThings.Components.Services.Notifications.ToastLevelCL
+
+<Aviso Exibir="Exibir" ToastLevel="@MyToastLevel">
+    @Msg
+</Aviso>
+
+@code {
+    [Inject] protected ToastService ToastService { get; set; }
+    [Parameter] public string Msg { get; set; }
+    public ToastLevel MyToastLevel { get; set; }
+    bool Exibir = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(TimeSpan.FromSeconds(1));
+        await Task.Run(() => ToastService.ShowToast("Component loaded!", ToastLevel.Info));
+        ExibeAviso();
+    }
+
+    private void ExibeAviso()
+    {
+        Exibir = true;
+        Msg = "Loaded";
+        MyToastLevel = ToastLevel.Info;
+    }
+}

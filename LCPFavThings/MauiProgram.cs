@@ -2,6 +2,7 @@
 using Blazorise;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
+using LCPFavThings.Components.Services.Notifications;
 using LCPFavThings.Data.SQL;
 using LCPFavThings.Data.SQLite;
 using LCPFavThings.Helpers;
@@ -31,6 +32,7 @@ public static class MauiProgram
         #endif
 
         builder.Services.AddBlazoredLocalStorage();
+        builder.Services.AddScoped<ToastService>();
         builder.Services.AddScoped<ILSHelper, LSHelper>();
         builder.Services.AddSingleton<ILocalDBDataService, LocalDBDataService>();
         builder.Services.AddHttpClient<IAllDataService, AllDataService>(client =>
