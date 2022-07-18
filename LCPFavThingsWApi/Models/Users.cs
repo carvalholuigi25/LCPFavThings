@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using LCPFavThingsWApi.SecurityApi.JWT;
 using LCPFavThingsWApi.Filters;
+using erres = LCPFavThingsWApiLib.ErrorResources.ErrorResources;
 
 namespace LCPFavThingsWApi.Models
 {
@@ -14,10 +15,13 @@ namespace LCPFavThingsWApi.Models
         [Key]
         [PrimaryKey, AutoIncrement]
         public int? UserId { get; set; }
-        [Required]
+
+        [Required(ErrorMessageResourceName = "EMUsername", ErrorMessageResourceType = typeof(erres))]
         public string? Username { get; set; }
-        [Required]
+
+        [Required(ErrorMessageResourceName = "EMPassword", ErrorMessageResourceType = typeof(erres))]
         public string? PasswordT { get; set; }
+
         public string? Email { get; set; }
         public string? Pin { get; set; }
         public string? FirstName { get; set; }
@@ -38,7 +42,11 @@ namespace LCPFavThingsWApi.Models
         [PrimaryKey, AutoIncrement]
         [SwaggerIgnore]
         public int? UserAuthId { get; set; }
+
+        [Required(ErrorMessageResourceName = "EMUsername", ErrorMessageResourceType = typeof(erres))]
         public string? Username { get; set; }
+
+        [Required(ErrorMessageResourceName = "EMPassword", ErrorMessageResourceType = typeof(erres))]
         public string? Password { get; set; }
 
         [SwaggerIgnore]

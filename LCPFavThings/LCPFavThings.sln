@@ -8,6 +8,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LCPFavThingsLib", "..\LCPFa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LCPFavThingsWApi", "..\LCPFavThingsWApi\LCPFavThingsWApi.csproj", "{FAFF5C43-8D81-4BC7-A45F-546427C9D9D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LCPFavThingsWApiLib", "..\LCPFavThingsWApiLib\LCPFavThingsWApiLib.csproj", "{0F761E71-2FB7-4515-9628-C6095FDE5589}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{FAFF5C43-8D81-4BC7-A45F-546427C9D9D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAFF5C43-8D81-4BC7-A45F-546427C9D9D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAFF5C43-8D81-4BC7-A45F-546427C9D9D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F761E71-2FB7-4515-9628-C6095FDE5589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F761E71-2FB7-4515-9628-C6095FDE5589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F761E71-2FB7-4515-9628-C6095FDE5589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F761E71-2FB7-4515-9628-C6095FDE5589}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

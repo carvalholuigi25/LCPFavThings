@@ -75,10 +75,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\LCPFavThingsLib\LCPFavThingsLib.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Update="Shared\ResourceFiles\Resource.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
@@ -134,6 +130,10 @@
 
 	<ItemGroup>
 	  <Folder Include="wwwroot\icons\fontawesome\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\LCPFavThingsLib\LCPFavThingsLib.csproj" />
 	</ItemGroup>
 
 </Project>

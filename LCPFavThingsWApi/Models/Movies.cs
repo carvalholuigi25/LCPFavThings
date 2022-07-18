@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using erres = LCPFavThingsWApiLib.ErrorResources.ErrorResources;
 
 namespace LCPFavThingsWApi.Models
 {
@@ -13,33 +14,33 @@ namespace LCPFavThingsWApi.Models
         [PrimaryKey, AutoIncrement]
         public int? MovieId { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "EMTitle", ErrorMessageResourceType = typeof(erres))]
         public string? Title { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "EMDesc", ErrorMessageResourceType = typeof(erres))]
         public string? DescT { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "EMGenre", ErrorMessageResourceType = typeof(erres))]
         public string? Genre { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "EMCategory", ErrorMessageResourceType = typeof(erres))]
         public string? Category { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "EMCover", ErrorMessageResourceType = typeof(erres))]
         public string? Cover { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "EMCompany", ErrorMessageResourceType = typeof(erres))]
         public string? Company { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "EMLanguage", ErrorMessageResourceType = typeof(erres))]
         public string? LangT { get; set; }
 
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = " This field only accepts positive numbers!")]
+        [Required(ErrorMessageResourceName = "EMDuration", ErrorMessageResourceType = typeof(erres))]
+        [Range(1, int.MaxValue, ErrorMessageResourceName = "EMDurationVal", ErrorMessageResourceType = typeof(erres))]
         public int? Duration { get; set; }
 
-        [Required]
-        [Range(0, 10.0, ErrorMessage = "The value should be less than or equal to 10.0")]
+        [Required(ErrorMessageResourceName = "EMRating", ErrorMessageResourceType = typeof(erres))]
+        [Range(0, 10.0, ErrorMessageResourceName = "EMRatingVal", ErrorMessageResourceType = typeof(erres))]
         public decimal? Rating { get; set; }
 
         public Movies()
