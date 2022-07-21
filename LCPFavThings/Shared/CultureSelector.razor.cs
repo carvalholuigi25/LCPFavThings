@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿/* source: https://code-maze.com/localization-in-blazor-webassembly-applications/ */
+
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Globalization;
 
