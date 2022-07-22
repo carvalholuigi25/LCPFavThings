@@ -100,6 +100,11 @@
                             lstdata.TokenInfo = MyExtensions.GenerateToken(lstdata.Username, lstdata.UserId).TokenInfo;
                         }
 
+                        if (string.IsNullOrEmpty(lstdata.Password))
+                        {
+                            lstdata.Password = bc.HashPassword(usersauth.Password);
+                        }
+
                         var jspdata = JsonConvert.SerializeObject(lstdata);
 
                         if (!string.IsNullOrEmpty(jspdata))
