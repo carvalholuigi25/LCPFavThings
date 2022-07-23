@@ -59,6 +59,15 @@
         StateHasChanged();
     }
 
+    private async Task<string> GetCurPasswordDB(string valdbm = "local")
+    {
+        if(valdbm == "local") {
+            return (await locdbdatasrv.Read<lib.Models.Users>()).ToList().Where(x => x.Username == usersauth.Username).FirstOrDefault().PasswordT;
+        } else {
+            return (await alldatasrv.Get<lib.Models.Users>("users")).ToList().Where(x => x.Username == usersauth.Username).FirstOrDefault().PasswordT;
+        }
+    }
+
     private async Task DoLogin()
     {
         try
@@ -109,7 +118,7 @@
 
                         if (!string.IsNullOrEmpty(jspdata))
                         {
-                            var isUserExists = bc.Verify(usersauth.Password, lstdata.Password);
+                            var isUserExists = bc.Verify(usersauth.Password, await GetCurPasswordDB(valdbm));
 
                             if (isUserExists)
                             {
